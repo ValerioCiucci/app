@@ -1,0 +1,20 @@
+{
+    "name": "Cute cat",
+    "short_name": "cat",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+      {
+        "src": "img/cute",
+        "sizes": "192x168",
+        "type": "image/png"
+      },
+      {
+        "src": "img/cute1",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
