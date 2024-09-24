@@ -7,7 +7,7 @@
     transition-duration: 1000ms;
 }
 body{
-   
+    overflow: hidden; 
    
     background-color:  darksalmon;
 display: flex;
@@ -15,7 +15,7 @@ justify-content: center;
 align-items: center;
 }
 .gatto{
-    margin-top: 30px;
+    margin-top: 70px;
     align-self: center;
 }
 img{
@@ -67,13 +67,22 @@ width: 160px;
 
     position: absolute;
     top:0;
-    margin-left:190px;
-    margin-top: 10px;
+    margin-left:170px;
+    margin-top: 14px;
     
 }
 
 
-
+.particle {
+    position: absolute;
+    width: 10px; 
+    height: 10px;
+    background-image:url(img/effect.png);
+    border-radius: 50%; 
+    pointer-events: none; 
+    opacity: 0; 
+    transition: opacity 0.2s ease-out; 
+}
 
 
 

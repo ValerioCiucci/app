@@ -24,8 +24,44 @@ audio.volume=0.2;
 var timeout = [];
 
 
-$(".gatto img").click(function () {
+const container = $('.gatto');
 
+
+
+function createParticle(x, y) {
+  const particle = $('<div class="particle"></div>');
+  container.append(particle);
+
+ 
+  particle.css({
+      left: x + 'px',
+      top: y + 'px',
+      opacity: 1 
+  });
+
+  
+  setTimeout(() => {
+      particle.css('opacity', '0'); 
+      setTimeout(() => {
+          particle.remove(); 
+      }, 200); 
+  }, 100); 
+}
+
+$(".gatto img").on('mousemove', function(e) {
+  createParticle(e.pageX, e.pageY);
+});
+
+
+$(".gatto img").on('touchstart', function(e) {
+  createParticle(e.pageX, e.pageY);
+});
+
+
+
+$(".gatto img").on('mouseenter',function () {
+
+  $(".gatto img").addClass('active')
 
   if (timeout.length > 0) {
 
