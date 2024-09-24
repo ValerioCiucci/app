@@ -15,7 +15,7 @@ justify-content: center;
 align-items: center;
 }
 .gatto{
-    margin-top: 90px;
+    margin-top: 150px;
     align-self: center;
 }
 img{
@@ -67,8 +67,8 @@ width: 160px;
 
     position: absolute;
     top:0;
-    margin-left:160px;
-    margin-top: 25px;
+    margin-left:140px;
+    margin-top: 80px;
     
 }
 
