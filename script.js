@@ -24,29 +24,29 @@ audio.volume = 0.2;
 var timeout = [];
 
 
-const container = $('.gatto');
+const container = $('.particle');
 
 
 
-function createParticle(x, y) {
-  const particle = $('<div class="particle"></div>');
-  container.append(particle);
+// function createParticle(x, y) {
+//   const particle = $('<div class="particle"></div>');
+//   container.append(particle);
 
 
-  particle.css({
-    left: x + 'px',
-    top: y + 'px',
-    opacity: 1
-  });
+//   particle.css({
+//     left: x + 'px',
+//     top: y + 'px',
+//     opacity: 1
+//   });
 
 
-  setTimeout(() => {
-    particle.css('opacity', '0');
-    setTimeout(() => {
-      particle.remove();
-    }, 200);
-  }, 100);
-}
+//   setTimeout(() => {
+//     particle.css('opacity', '0');
+//     setTimeout(() => {
+//       particle.remove();
+//     }, 200);
+//   }, 100);
+// }
 
 $(".gatto img").on('mousemove', function (e) {
   createParticle(e.pageX, e.pageY);
@@ -55,7 +55,21 @@ $(".gatto img").on('mousemove', function (e) {
 let i = 0
 
 
+$(".gatto img").on('touchmove', function(event) {
+  const touch = event.touches[0]; // Prendi il primo tocco
+  container.css({
+      left: touch.pageX + 'px',
+      top: touch.pageY + 'px'
+  });
+});
+
 $(".gatto img").on('touchstart', function (e) {
+  const touch = e.touches[0]; // Prendi il primo tocco
+        container.css({
+            left: touch.pageX + 'px',
+            top: touch.pageY + 'px',
+            opacity: 1 // Mostra il pallino
+        });
 
   if (timeout.length > 0) {
 
@@ -88,6 +102,7 @@ $(".gatto img").on('touchstart', function (e) {
 
 
 $(".gatto img").on('touchend', function (e) {
+    container.css('opacity', '0'); // Nasconde il pallino
 
   timeout.push(setTimeout(function () {
 
