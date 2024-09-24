@@ -1,12 +1,12 @@
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
+  window.addEventListener('load', function () {
     navigator.serviceWorker
       .register('/sw.js')
-      .then(function(registration) {
+      .then(function (registration) {
         console.log('Service Worker registrato con successo:', registration);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log('Service Worker registrazione fallita:', error);
       });
   });
@@ -19,8 +19,8 @@ if ('serviceWorker' in navigator) {
 $(".d").hide().fadeIn(200)
 $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA")
 $("audio").hide()
-var audio=$("audio")[0];
-audio.volume=0.2;
+var audio = $("audio")[0];
+audio.volume = 0.2;
 var timeout = [];
 
 
@@ -32,30 +32,30 @@ function createParticle(x, y) {
   const particle = $('<div class="particle"></div>');
   container.append(particle);
 
- 
+
   particle.css({
-      left: x + 'px',
-      top: y + 'px',
-      opacity: 1 
+    left: x + 'px',
+    top: y + 'px',
+    opacity: 1
   });
 
-  
+
   setTimeout(() => {
-      particle.css('opacity', '0'); 
-      setTimeout(() => {
-          particle.remove(); 
-      }, 200); 
-  }, 100); 
+    particle.css('opacity', '0');
+    setTimeout(() => {
+      particle.remove();
+    }, 200);
+  }, 100);
 }
 
-$(".gatto img").on('mousemove', function(e) {
+$(".gatto img").on('mousemove', function (e) {
   createParticle(e.pageX, e.pageY);
 });
 
-let i=0
+let i = 0
 
 
-$(".gatto img").on('touchstart', function(e) {
+$(".gatto img").on('touchstart', function (e) {
 
   if (timeout.length > 0) {
 
@@ -80,6 +80,15 @@ $(".gatto img").on('touchstart', function(e) {
 
 
 
+  i = setInterval(() => {
+
+    createParticle(e.pageX, e.pageY);
+  }, 100);
+});
+
+
+$(".gatto img").on('touchend', function (e) {
+
   timeout.push(setTimeout(function () {
 
 
@@ -91,23 +100,15 @@ $(".gatto img").on('touchstart', function(e) {
 
 
   }, 5000))
- i =setInterval(()=> {
-    
-    createParticle(e.pageX, e.pageY); 
-}, 100);
+
+  clearInterval(i);
 });
 
 
-$(".gatto img").on('touchend', function(e) {
 
- clearInterval(i);
- });
+$(".gatto img").on('mouseenter', function () {
 
 
-
-$(".gatto img").on('mouseenter',function () {
-
-  
 
   if (timeout.length > 0) {
 
@@ -195,7 +196,7 @@ $(`.box[pid='1']`).click(function () {
   }, 5000))
 
 
-  })
+})
 
 
 $(`.box[pid='2']`).click(function () {
@@ -236,21 +237,21 @@ $(`.box[pid='2']`).click(function () {
 })
 
 
-$("img[pid='1']").click(function(){
+$("img[pid='1']").click(function () {
 
-if($("img[pid='1']").attr("src")=="img/muted.png"){
-  $("img[pid='1']").attr("src","img/sound.png")
-  $("img[pid='1']").attr("width","+=50px")
-audio.play();
+  if ($("img[pid='1']").attr("src") == "img/muted.png") {
+    $("img[pid='1']").attr("src", "img/sound.png")
+    $("img[pid='1']").attr("width", "+=50px")
+    audio.play();
 
-}
+  }
 
-else{
-  
-  $("img[pid='1']").attr("src","img/muted.png")
-  $("img[pid='1']").attr("width","-=50px")
-  audio.pause();
-}
+  else {
+
+    $("img[pid='1']").attr("src", "img/muted.png")
+    $("img[pid='1']").attr("width", "-=50px")
+    audio.pause();
+  }
 
 
 
