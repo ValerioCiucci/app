@@ -52,10 +52,22 @@ $(".gatto img").on('mousemove', function(e) {
   createParticle(e.pageX, e.pageY);
 });
 
+let i=0
+
 
 $(".gatto img").on('touchstart', function(e) {
-  createParticle(e.pageX, e.pageY);
+
+ i =setInterval(()=> {
+    const touch = e.touches[0]; 
+    createParticle(e.pageX, e.pageY); 
+}, 100);
 });
+
+
+$(".gatto img").on('touchend', function(e) {
+
+ clearInterval(i);
+ });
 
 
 
