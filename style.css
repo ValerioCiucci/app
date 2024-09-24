@@ -36,8 +36,8 @@ display: flex;
 align-items: center;
 justify-content: center;
 font-family: 'Minecraft', sans-serif;
-height: 100px;
-width: 150px;
+height: 70px;
+width: 80px;
 
     color:darksalmon;
     background-color: white;
@@ -57,8 +57,8 @@ width: 150px;
 
 .selezione .box:hover{
 font-size: large;
-height: 110px;
-width: 160px;
+height: 80px;
+width: 90px;
 
 }
 .d{
