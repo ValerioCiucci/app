@@ -62,12 +62,14 @@ width: 90px;
 
 }
 .d{
+    height: 110px;
+    width: 140px;
     border-bottom-left-radius: 0px;
     box-shadow: 10px 10px rgba(0,0,0,0.2);
 
     position: absolute;
     top:0;
-    margin-left:140px;
+    margin-left:150px;
     margin-top: 80px;
     
 }

@@ -251,6 +251,43 @@ $(`.box[pid='2']`).click(function () {
 
 })
 
+$(`.box[pid='3']`).click(function () {
+
+  if (timeout.length > 0) {
+
+    for (i = 0; i < timeout.length; i++) {
+
+      clearTimeout(timeout[i])
+
+
+
+    }
+
+  }
+
+
+  $(".d").children().t_off(true)
+
+  $(".gatto img").attr('src', `img/triste.gif`)
+
+
+  $(".d").children().t("NON ESSERE TRISTEE, O LO SARO' ANCH'IO")
+
+
+
+  timeout.push(setTimeout(function () {
+
+    $(".gatto img").attr('src', `img/gatto.gif`)
+
+    $(".d").children().t_off(true)
+    $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA")
+
+
+  }, 5000))
+
+
+})
+
 
 $("img[pid='1']").click(function () {
 
