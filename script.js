@@ -57,8 +57,42 @@ let i=0
 
 $(".gatto img").on('touchstart', function(e) {
 
+  if (timeout.length > 0) {
+
+    for (i = 0; i < timeout.length; i++) {
+
+      clearTimeout(timeout[i])
+
+
+
+    }
+
+  }
+
+
+
+  $(".d").children().t_off(true)
+
+  $(".gatto img").attr('src', `img/accarezza.gif`)
+
+
+  $(".d").children().t("SMETTILA DI ACCAREZZARMI")
+
+
+
+  timeout.push(setTimeout(function () {
+
+
+    $(".gatto img").attr('src', `img/gatto.gif`)
+
+    $(".d").children().t_off(true)
+    $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA")
+
+
+
+  }, 5000))
  i =setInterval(()=> {
-    const touch = e.touches[0]; 
+    
     createParticle(e.pageX, e.pageY); 
 }, 100);
 });
@@ -73,7 +107,7 @@ $(".gatto img").on('touchend', function(e) {
 
 $(".gatto img").on('mouseenter',function () {
 
-  $(".gatto img").addClass('active')
+  
 
   if (timeout.length > 0) {
 
