@@ -372,109 +372,139 @@ mouse=false;
 
 
 
-$(`.box[pid='5']`).click(function () {
-mouse=true;
-
-  if (timeout.length > 0) {
-
-    for (i = 0; i < timeout.length; i++) {
-
-      clearTimeout(timeout[i])
 
 
+  const $canvas = $('canvas')[0]; // 
 
-    }
+  const ctx = $canvas.getContext('2d');
 
 
-    $(".n").toggle(100)
+  let drawingEnabled = false;
 
 
 
+  var color='black';
+  
+  function draw(x, y) {
+      ctx.fillStyle = color;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 5;
 
-    $(".gatto img").fadeIn(3000);
-    $(".d").fadeIn(3000);
-    $(".box").not(".n").show(1000);
-    $(".gatto img").attr('src', `img/arrabbiato2.gif`)
-    $(".d").children().t("E MO CHE VOI")
+     
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+  }
 
-
+  
+  function enableDrawing() {
+    color='black';
+    $('canvas').show();
+      drawingEnabled = true;
   }
 
 
+  $('.box[pid=6]').on('click', enableDrawing);
 
 
+  $canvas.addEventListener('mousedown', function(e) {
+   let draw1=true
+
+  $canvas.addEventListener('mousemove', function(e) {
+      if (draw1==true) {
+          const rect = $canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          draw(x, y);
+      }
+  
+      $canvas.addEventListener('mouseup', function(e) {
+        draw1=false;
+      });
+  
+  
+  
+    });
+});
+
+
+
+
+
+  
+  $canvas.addEventListener('touchmove', function(e) {
+      if (drawingEnabled) {
+          e.preventDefault(); 
+          const rect = $canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
+          draw(x, y);
+      }
+  });
+
+  
+  $canvas.addEventListener('touchend', function() {
+      drawingEnabled = false;
+  });
+
+
+$(`.box[pid='8']`).click(function(){
+
+
+  ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+
+
+})
+$(`.box[pid='7']`).click(function(){
+
+
+color='white';
 
 })
 
 
 
-$(document).ready(function() {
-    const $canvas = $('canvas')[0]; // Otteniamo il canvas
 
-    const ctx = $canvas.getContext('2d');
+$(`.box[pid='5']`).click(function () {
+  mouse=true;
 
-    // Variabile per sapere se il disegno è attivato
-    let drawingEnabled = false;
-
-    // Funzione per disegnare
-    function draw(x, y) {
-        ctx.fillStyle = 'blue';
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = 5;
-
-        // Disegna un cerchio
-        ctx.beginPath();
-        ctx.arc(x, y, 30, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+  $('canvas').hide()
+  
+    if (timeout.length > 0) {
+  
+      for (i = 0; i < timeout.length; i++) {
+  
+        clearTimeout(timeout[i])
+  
+  
+  
+      }
+  
+  
+      $(".n").toggle(100)
+  
+  
+  
+  
+      $(".gatto img").fadeIn(3000);
+      $(".d").fadeIn(3000);
+      $(".box").not(".n").show(1000);
+      $(".gatto img").attr('src', `img/arrabbiato2.gif`)
+      $(".d").children().t("E MO CHE VOI")
+  
+  
     }
-
-    // Funzione per abilitare il disegno
-    function enableDrawing() {
-      $('canvas').show();
-        drawingEnabled = true;
-    }
-
-    // Gestire il click del bottone
-    $('.box[pid=6]').on('click', enableDrawing);
-
-    // Gestire il disegno con il mouse
-    $canvas.addEventListener('mousedown', function(e) {
-     
-
-    $canvas.addEventListener('mousemove', function(e) {
-        if (drawingEnabled) {
-            const rect = $canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            draw(x, y);
-        }
-    });
-  });
-
-  $canvas.addEventListener('mouseup', function(e) {
-    drawingEnabled=false;
-  });
+  
+  
+  
+  
+  
+  })
 
 
 
-    // Gestire il disegno con il touch
-    $canvas.addEventListener('touchmove', function(e) {
-        if (drawingEnabled) {
-            e.preventDefault(); // Previene lo scorrimento della pagina
-            const rect = $canvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            draw(x, y);
-        }
-    });
-
-    // Opzionale: disabilitare il disegno quando si tocca il canvas
-    $canvas.addEventListener('touchend', function() {
-        drawingEnabled = false;
-    });
-});
 // $("img").attr("src","img/accarezza.gif")
 // $("img").attr("width","200")
 // $("img").attr("height","200")
