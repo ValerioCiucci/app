@@ -28,25 +28,27 @@ const container = $('.particle');
 
 
 
-// function createParticle(x, y) {
-//   const particle = $('<div class="particle"></div>');
-//   container.append(particle);
+function createParticle(x, y) {
+  const container=$('.gatto');
+
+  const particle = $('<div class="particle"></div>');
+  container.append(particle);
 
 
-//   particle.css({
-//     left: x + 'px',
-//     top: y + 'px',
-//     opacity: 1
-//   });
+  particle.css({
+    left: x + 'px',
+    top: y + 'px',
+    opacity: 1
+  });
 
 
-//   setTimeout(() => {
-//     particle.css('opacity', '0');
-//     setTimeout(() => {
-//       particle.remove();
-//     }, 200);
-//   }, 100);
-// }
+  setTimeout(() => {
+    particle.css('opacity', '0');
+    setTimeout(() => {
+      particle.remove();
+    }, 200);
+  }, 100);
+}
 
 $(".gatto img").on('mousemove', function (e) {
   createParticle(e.pageX, e.pageY);
@@ -56,7 +58,7 @@ let i = 0
 
 
 $(".gatto img").on('touchmove', function(event) {
-  const touch = event.touches[0]; // Prendi il primo tocco
+  const touch = event.touches[0]; 
   container.css({
       left: touch.pageX + 'px',
       top: touch.pageY + 'px'
@@ -64,11 +66,11 @@ $(".gatto img").on('touchmove', function(event) {
 });
 
 $(".gatto img").on('touchstart', function (e) {
-  const touch = e.touches[0]; // Prendi il primo tocco
+  const touch = e.touches[0]; 
         container.css({
             left: touch.pageX + 'px',
             top: touch.pageY + 'px',
-            opacity: 1 // Mostra il pallino
+            opacity: 1 
         });
 
   if (timeout.length > 0) {

@@ -2,7 +2,10 @@
 
 *{
 
-
+    user-select: none;
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;     
     transition: all;
     transition-duration: 1000ms;
 }
@@ -77,10 +80,13 @@ width: 90px;
 
 .particle {
     position: absolute;
-    width: 10px; 
-    height: 10px;
-    background-color:darksalmon;
-    border-radius: 50%; 
+    width: 20px; 
+    height: 20px;
+    background-image: url(img/effect1.png);
+    background-size: cover;
+    border-radius: 50%;
+   
+
     pointer-events: none; 
     opacity: 0; 
     transition: opacity 0.2s ease-out; 
