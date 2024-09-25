@@ -18,15 +18,29 @@ justify-content: center;
 align-items: center;
 }
 .gatto{
+    height: 200px;
+    width: 200px;
+    border-radius:30px ;
+    background-color: white;
     margin-top: 150px;
     align-self: center;
+    margin-bottom: 100px;
+    
 }
+
+
+
+
 img{
-    border-radius: 30px  ;
+    border-radius: 30px  ; 
     margin-bottom:100px;
     align-self: center;
 }
 
+.imgn{
+margin-bottom: 0;
+border-radius: 0px;
+}
 .main{
     display:flex;
     flex-direction:column;
@@ -59,11 +73,16 @@ width: 80px;
 
 
 .selezione .box:hover{
-font-size: large;
-height: 80px;
-width: 90px;
+transform: scale(1.2);
 
 }
+
+
+.selezione .box:active{
+    transform: scale(1);
+    
+    }
+
 .d{
     height: 110px;
     width: 140px;
@@ -76,7 +95,11 @@ width: 90px;
     margin-top: 80px;
     
 }
+canvas{
+    
 
+    border-radius: 30px;
+}
 
 .particle {
     position: absolute;

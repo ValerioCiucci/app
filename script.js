@@ -12,9 +12,57 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+$(".n").hide();
+$('canvas').hide()
+
+var mouse = true;
 
 
 
+function accarezza() {
+
+
+  if (mouse == true) {
+
+    if (timeout.length > 0) {
+
+      for (i = 0; i < timeout.length; i++) {
+
+        clearTimeout(timeout[i])
+
+
+
+      }
+
+    }
+
+
+
+    $(".d").children().t_off(true)
+
+    $(".gatto img").attr('src', `img/accarezza.gif`)
+
+
+    $(".d").children().t("SMETTILA DI ACCAREZZARMI")
+
+
+
+    timeout.push(setTimeout(function () {
+
+
+      $(".gatto img").attr('src', `img/gatto.gif`)
+
+      $(".d").children().t_off(true)
+      $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA")
+
+
+
+    }, 5000))
+
+  }
+
+
+}
 
 $(".d").hide().fadeIn(200)
 $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA")
@@ -26,13 +74,13 @@ var timeout = [];
 
 const container = $('.particle');
 
-
+const container1 = $('.gatto');
 
 function createParticle(x, y) {
-  const container=$('.gatto');
+
 
   const particle = $('<div class="particle"></div>');
-  container.append(particle);
+  container1.append(particle);
 
 
   particle.css({
@@ -57,54 +105,60 @@ $(".gatto img").on('mousemove', function (e) {
 let i = 0
 
 
-$(".gatto img").on('touchmove', function(event) {
-  const touch = event.touches[0]; 
+$(".gatto img").on('touchmove', function (event) {
+  const touch = event.touches[0];
   container.css({
-      left: touch.pageX + 'px',
-      top: touch.pageY + 'px'
+    left: touch.pageX + 'px',
+    top: touch.pageY + 'px'
   });
 });
 
 $(".gatto img").on('touchstart', function (e) {
-  const touch = e.touches[0]; 
-        container.css({
-            left: touch.pageX + 'px',
-            top: touch.pageY + 'px',
-            opacity: 1 
-        });
 
-  if (timeout.length > 0) {
+  if (mouse == true) {
+    const touch = e.touches[0];
+    container.css({
+      left: touch.pageX + 'px',
+      top: touch.pageY + 'px',
+      opacity: 1
+    });
 
-    for (i = 0; i < timeout.length; i++) {
+    if (timeout.length > 0) {
 
-      clearTimeout(timeout[i])
+      for (i = 0; i < timeout.length; i++) {
+
+        clearTimeout(timeout[i])
 
 
+
+      }
 
     }
 
+
+
+    $(".d").children().t_off(true)
+
+    $(".gatto img").attr('src', `img/accarezza.gif`)
+
+
+    $(".d").children().t("SMETTILA DI ACCAREZZARMI")
+
+
+
+    i = setInterval(() => {
+
+      createParticle(e.pageX, e.pageY);
+    }, 100);
+
   }
-
-
-
-  $(".d").children().t_off(true)
-
-  $(".gatto img").attr('src', `img/accarezza.gif`)
-
-
-  $(".d").children().t("SMETTILA DI ACCAREZZARMI")
-
-
-
-  i = setInterval(() => {
-
-    createParticle(e.pageX, e.pageY);
-  }, 100);
 });
 
 
 $(".gatto img").on('touchend', function (e) {
-    container.css('opacity', '0'); // Nasconde il pallino
+
+  if(mouse==true){
+  container.css('opacity', '0'); // Nasconde il pallino
 
   timeout.push(setTimeout(function () {
 
@@ -119,51 +173,14 @@ $(".gatto img").on('touchend', function (e) {
   }, 5000))
 
   clearInterval(i);
+
+}
 });
 
 
-
-$(".gatto img").on('mouseenter', function () {
-
-
-
-  if (timeout.length > 0) {
-
-    for (i = 0; i < timeout.length; i++) {
-
-      clearTimeout(timeout[i])
-
-
-
-    }
-
-  }
-
-
-
-  $(".d").children().t_off(true)
-
-  $(".gatto img").attr('src', `img/accarezza.gif`)
-
-
-  $(".d").children().t("SMETTILA DI ACCAREZZARMI")
-
-
-
-  timeout.push(setTimeout(function () {
-
-
-    $(".gatto img").attr('src', `img/gatto.gif`)
-
-    $(".d").children().t_off(true)
-    $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA")
-
-
-
-  }, 5000))
-
-})
-
+if(mouse==true){
+$(".gatto img").on('mouseenter', accarezza)
+}
 
 
 
@@ -310,6 +327,154 @@ $("img[pid='1']").click(function () {
 
 
 })
+
+
+$(`.box[pid='4']`).click(function () {
+mouse=false;
+
+  if (timeout.length > 0) {
+
+    for (i = 0; i < timeout.length; i++) {
+
+      clearTimeout(timeout[i])
+
+
+
+    }
+
+  }
+
+
+
+  $(".d").children().t_off(true)
+
+  $(".gatto img").attr('src', `img/triste2.gif`)
+
+
+  $(".d").children().t("HO CAPITO ME LEVO DAL CAZZO")
+
+  $(".gatto img").fadeOut(5000);
+  $(".d").fadeOut(5000);
+  $(".box").hide(5000);
+
+  timeout.push(setTimeout(function () {
+    $(".n").toggle(1000)
+  }, 5000
+  )
+  )
+
+
+
+
+
+})
+
+
+
+
+$(`.box[pid='5']`).click(function () {
+mouse=true;
+
+  if (timeout.length > 0) {
+
+    for (i = 0; i < timeout.length; i++) {
+
+      clearTimeout(timeout[i])
+
+
+
+    }
+
+
+    $(".n").toggle(100)
+
+
+
+
+    $(".gatto img").fadeIn(3000);
+    $(".d").fadeIn(3000);
+    $(".box").not(".n").show(1000);
+    $(".gatto img").attr('src', `img/arrabbiato2.gif`)
+    $(".d").children().t("E MO CHE VOI")
+
+
+  }
+
+
+
+
+
+})
+
+
+
+$(document).ready(function() {
+    const $canvas = $('canvas')[0]; // Otteniamo il canvas
+
+    const ctx = $canvas.getContext('2d');
+
+    // Variabile per sapere se il disegno è attivato
+    let drawingEnabled = false;
+
+    // Funzione per disegnare
+    function draw(x, y) {
+        ctx.fillStyle = 'blue';
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 5;
+
+        // Disegna un cerchio
+        ctx.beginPath();
+        ctx.arc(x, y, 30, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+    }
+
+    // Funzione per abilitare il disegno
+    function enableDrawing() {
+      $('canvas').show();
+        drawingEnabled = true;
+    }
+
+    // Gestire il click del bottone
+    $('.box[pid=6]').on('click', enableDrawing);
+
+    // Gestire il disegno con il mouse
+    $canvas.addEventListener('mousedown', function(e) {
+     
+
+    $canvas.addEventListener('mousemove', function(e) {
+        if (drawingEnabled) {
+            const rect = $canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            draw(x, y);
+        }
+    });
+  });
+
+  $canvas.addEventListener('mouseup', function(e) {
+    drawingEnabled=false;
+  });
+
+
+
+    // Gestire il disegno con il touch
+    $canvas.addEventListener('touchmove', function(e) {
+        if (drawingEnabled) {
+            e.preventDefault(); // Previene lo scorrimento della pagina
+            const rect = $canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            draw(x, y);
+        }
+    });
+
+    // Opzionale: disabilitare il disegno quando si tocca il canvas
+    $canvas.addEventListener('touchend', function() {
+        drawingEnabled = false;
+    });
+});
 // $("img").attr("src","img/accarezza.gif")
 // $("img").attr("width","200")
 // $("img").attr("height","200")
