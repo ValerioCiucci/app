@@ -258,9 +258,10 @@ $canvas.addEventListener('mousedown', function(e) {
   });
 });
 
-
+$canvas.addEventListener('touchstart', function(e) {
+  let draw1 = true;
 $canvas.addEventListener('touchmove', function(e) {
-  if (drawingEnabled) {
+  if (draw1) {
     e.preventDefault();
     const rect = $canvas.getBoundingClientRect();
     const touch = e.touches[0];
@@ -269,6 +270,14 @@ $canvas.addEventListener('touchmove', function(e) {
     draw(x, y);
   }
 });
+
+$canvas.addEventListener('touchend', function() {
+  draw1 = false;
+  firstTouch=true;
+  
+});
+
+}
 
 $(`.box[pid='8']`).click(function() {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
