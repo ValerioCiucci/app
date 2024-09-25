@@ -9,19 +9,15 @@
     transition: all;
     transition-duration: 1000ms;
 }
-html{
+html, body {
+    height: 100%; 
+    width: 100%;
 
-    background-color: #ff6666;
-}
-body{
     overflow: hidden; 
-   
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: linear-gradient(to top, #ff6666 0%, #e9967a 100%);
-
-display: flex;
-justify-content: center;
-align-items: center;
-
 }
 .gatto{
     height: 200px;
