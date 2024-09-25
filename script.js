@@ -207,7 +207,7 @@ $(`.box[pid='2']`).click(function () {
 let drawingEnabled = false;
 const $canvas = $('canvas')[0];
 const ctx = $canvas.getContext('2d');
-let color = 'black';
+let color = $('input')[0].value;
 let firstTouch=false;
 
 function draw(x, y) {
@@ -233,7 +233,7 @@ else{
 
 function enableDrawing() {
   ctx.beginPath()
-  color = 'black';
+  color = $('input')[0].value;
   $('canvas').show();
   drawingEnabled = true;
 }
@@ -306,3 +306,34 @@ $(`.box[pid='5']`).click(function () {
   $(".gatto img").attr('src', `img/arrabbiato2.gif`);
   $(".d").children().t("E MO CHE VOI");
 });
+
+$("img[pid='1']").click(function () {
+
+  if ($("img[pid='1']").attr("src") == "img/muted.png") {
+    $("img[pid='1']").attr("src", "img/sound.png")
+    $("img[pid='1']").attr("width", "+=50px")
+    audio.play();
+
+  }
+
+  else {
+
+    $("img[pid='1']").attr("src", "img/muted.png")
+    $("img[pid='1']").attr("width", "-=50px")
+    audio.pause();
+  }
+
+
+
+})
+
+
+$('input').on('input',function(){
+
+ 
+color=$('input')[0].value;
+ctx.beginPath();
+
+})
+
+
