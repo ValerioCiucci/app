@@ -9,6 +9,10 @@
     transition: all;
     transition-duration: 1000ms;
 }
+html{
+
+    background-color: #ff6666;
+}
 body{
     overflow: hidden; 
    
@@ -17,6 +21,7 @@ body{
 display: flex;
 justify-content: center;
 align-items: center;
+
 }
 .gatto{
     height: 200px;
