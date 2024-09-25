@@ -12,7 +12,8 @@
 body{
     overflow: hidden; 
    
-    background-color:  darksalmon;
+    background: linear-gradient(to top, #ff6666 0%, #e9967a 100%);
+
 display: flex;
 justify-content: center;
 align-items: center;
@@ -109,7 +110,7 @@ canvas{
     position: absolute;
     width: 15px; 
     height: 15px;
-    background-color:darksalmon;
+    background-color:#e9967a;
     background-size: cover;
     border-radius: 50%;
    
