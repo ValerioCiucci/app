@@ -442,12 +442,13 @@ mouse=false;
           const y = touch.clientY - rect.top;
           draw(x, y);
       }
+
+
+      
   });
 
   
-  $canvas.addEventListener('touchend', function() {
-      drawingEnabled = false;
-  });
+ 
 
 
 $(`.box[pid='8']`).click(function(){
