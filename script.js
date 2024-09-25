@@ -277,7 +277,7 @@ $canvas.addEventListener('touchend', function() {
   
 });
 
-}
+});
 
 $(`.box[pid='8']`).click(function() {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
