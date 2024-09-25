@@ -75,8 +75,9 @@ width: 80px;
 }
 
 
-.selezione .box:hover{
-transform: scale(1.2);
+.selezione .box{
+transition: transform 0.2s;
+
 
 }
 
@@ -85,7 +86,7 @@ transform: scale(1.2);
 }
 
 .selezione .box:active{
-    transform: scale(1);
+    transform: scale(1.2);
     
     }
 
