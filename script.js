@@ -133,17 +133,23 @@ $(`.box[pid='4']`).click(function () {
   clearTimeouts();
   $(".d").children().t_off(true);
   $(".gatto img").attr('src', `img/triste2.gif`);
-  $(".d").children().t("HO CAPITO ME NE VADO");
+  $(".d").children().t("HO CAPITO ME LEVO DAL CAZZO");
 
-  $(".gatto img").fadeOut(5000);
-  $(".d").fadeOut(5000);
-  $(".box").hide(5000);
+  $(".gatto img").fadeOut(3000,function(){
+    $(".d").fadeOut(100);
+    $(".box").hide(1000);
+    timeout.push(setTimeout(function () {
 
-  timeout.push(setTimeout(function () {
-    $(".n").toggle(1000);
-    enableDrawing()
-  }, 5000));
-});
+
+      $(".n").toggle(1000);
+      enableDrawing()
+    }, 1000));
+  });
+
+  });
+  
+
+  
 
 $(`.box[pid='1']`).click(function () {
   if (mouse) {
@@ -306,6 +312,7 @@ $(`.box[pid='7']`).click(function () {
 $(`.box[pid='5']`).click(function () {
   mouse = true;
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+  $('input')[0].value='black';
   $('canvas').hide();
   clearTimeouts();
 
@@ -381,4 +388,163 @@ else{
 
 
 
+});
+let backupStyle = {
+  htmlBackground: $('html').css('background'),
+  bodyBackground: $('body').css('background'),
+  selezioneFlexDirection: $('.selezione').css('flex-direction'),
+  selezioneAlignItems: $('.selezione').css('align-items'),
+  selezioneJustifyContent: $('.selezione').css('justify-content'),
+  selezioneWidth: $('.selezione').css('width'),
+  selezioneHeight: $('.selezione').css('height'),
+  boxTransform: $('.box').css('transform'),
+  mainWidth: $('.main').css('width'),
+  mainHeight: $('.main').css('height'),
+  canvasHeight:$('canvas').css('height'),
+  canvasWidth:$('canvas').css('width'),
+ gattoWidth:$('.gatto').css('width'),
+ gattoHeight:$('.gatto').css('height')
+
+};
+
+
+let flag1=false;
+$(`.box[pid='10']`).click(function () {
+  if(!flag1){
+
+  $('html').css('background','white')
+
+  $('body').css('background','white')
+  $('body').css('background','white')
+
+  
+  $('.selezione').css('flex-direction','column')
+  $('.selezione').css('align-items','flex-start')
+  $('.selezione').css('justify-content','flex-start')
+  $('.selezione').css('width','fit-content')
+  $('.selezione').css('height','fit-content')
+  $('.box').removeClass('m-t')
+
+
+
+
+
+  $('.gatto').css('width',window.innerWidth)
+  $('.gatto').css('height',window.innerHeight)
+
+  $('canvas').css('width',window.innerWidth)
+  $('canvas').css('height',window.innerHeight)
+  $('canvas').css('position','absolute').css('top','0').css('left','0')
+  $('.selezione').css('position','absolute').css('top','50').css('left','0')
+ $('.selezione').append($('<div>').addClass('box').addClass('n').text('Nascondi').attr('pid','14').addClass('m')
+ 
+  
+
+)
+
+let flag=true;
+$(`.box[pid='14']`).click(function () {
+  if(flag){
+  $(this).text('Mostra')
+  flag=false;
+  }
+  else{
+    $(this).text('Nascondi')
+    flag=true;
+  }
+  $('.n').not('.m').toggle("slide:right");
+
+
+  
+});
+
+
+$('.box').css('transform','scale(0.6)')
+
+
+
+  $('.main').css('width',window.innerWidth)
+  $('.main').css('height',window.innerHeight)
+
+ 
+ 
+
+
+
+
+$canvas.width=window.innerWidth
+$canvas.height=window.innerHeight
+
+
+
+
+
+flag1=true
+
+}
+else{
+
+
+  $(`.box[pid='9']`).addClass('m-t')
+  $(`.box[pid='10']`).addClass('m-t')
+  $(`.box[pid='11']`).addClass('m-t')
+  $(`.box[pid='12']`).addClass('m-t')
+  $(`.box[pid='5']`).addClass('m-t')
+
+
+  console.log(backupStyle.selezioneFlexDirection)
+  $(`.box[pid='14']`).hide()
+ // Ripristina lo stato originale
+ $('html').css('background', backupStyle.htmlBackground).css({
+
+width:'100%',
+height:'100%'
+  
+ });
+ $('body').css('background', backupStyle.bodyBackground ).css({
+
+  width:'100%',
+  height:'100%'
+    
+   });;
+ $('.selezione').css({
+  'position':'relative',
+   'flex-direction': backupStyle.selezioneFlexDirection,
+   'align-items': backupStyle.selezioneAlignItems,
+   'justify-content': backupStyle.selezioneJustifyContent,
+   'width': backupStyle.selezioneWidth,
+   'height': backupStyle.selezioneHeight,
+   
+ });
+$('.box').css({
+
+'transform':'scale(1.0)'
+
+})
+ $('.gatto').css('width', backupStyle.gattoWidth); 
+ $('.gatto').css('height', backupStyle.gattoHeight); 
+
+ $('.main').css({
+   'width':'100%',
+   'height': '100%',
+   'position':'relative'
+ });
+ $('canvas').css({
+
+
+'width': backupStyle.canvasWidth,
+   'height': backupStyle.canvasHeight,
+   'position':'relative'
+   
+
+
+ })
+
+ $canvas.width = '200px'; 
+ $canvas.height = '200px';
+
+ flag1 = false; 
+  
+}
+ 
 });
