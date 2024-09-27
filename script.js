@@ -53,7 +53,7 @@ var timeout = [];
 var audio = $("audio")[0];
 audio.volume = 0.2;
 
-$("img[pid='0'").click(function(){
+$("img[pid='0']").click(function(){
   $(".start").hide(0)
   $(".main").show(0)
   $("audio")[3].play()
@@ -400,6 +400,8 @@ $(`.box[pid='5']`).click(function () {
   mouse = true;
   console.log(activatedButton)
   if(activatedButton){
+    
+
     $('.box').css('transform', 'scale(1.0)');
     $(".box[pid='9'").addClass('m-t')
     $(".box[pid='10'").addClass('m-t')
@@ -419,7 +421,7 @@ $(`.box[pid='5']`).click(function () {
         $("img[pid='1']").attr('height','100px')
         $("img[pid='1']").attr('width','100px')
        
-    
+        $(".main").show(0)
     
         $(".box[pid='69']").remove()
     
@@ -615,6 +617,7 @@ $(`.box[pid='10']`).click(function () {
     $canvas.height=window.innerHeight;
 
   } else {
+    
     activatedButton=false;
 
    
@@ -637,7 +640,7 @@ $(".box[pid='5'").addClass('m-t')
     $("img[pid='1']").attr('height','100px')
     $("img[pid='1']").attr('width','100px')
    
-
+    $(".main").show(0)
 
     $(".box[pid='69']").remove()
 
