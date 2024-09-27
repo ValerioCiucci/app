@@ -228,19 +228,19 @@ $(`.box[pid='1']`).click(function () {
      let i=0;
      playingAudio.push($('audio')[1])
      playingAudio[ playingAudio.length-1].play()
-      // $('audio')[1].onended=function(){
-      //   i++;
-      //   if (i < 3) { 
-      //     playingAudio[ playingAudio.length-1].currentTime = 0;  
-      //     playingAudio[ playingAudio.length-1].play();  
-      //   }
-      //   else{
-      //     playingAudio.pop()
+      $('audio')[1].onended=function(){
+        i++;
+        if (i < 3) { 
+          playingAudio[ playingAudio.length-1].currentTime = 0;  
+          playingAudio[ playingAudio.length-1].play();  
+        }
+        else{
+          playingAudio.pop()
 
-      //   }
+        }
 
 
-      // }
+      }
 
       
     
