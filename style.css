@@ -9,6 +9,16 @@
     transition: all;
     transition-duration: 1000ms;
 }
+
+
+html, body {
+    touch-action: none;
+    overflow: hidden;   
+    -ms-touch-action: none;
+    -webkit-user-select: none; 
+    -ms-user-select: none;
+    user-select: none;
+}
 html, body {
     height: 100%; 
     width: 100%;
@@ -30,10 +40,33 @@ html, body {
     
 }
 
+.gatt{
+    height: 200px;
+    width: 200px;
+    border-radius:30px ;
+    background-color: white;
+    margin-top: 150px;
+    align-self: center;
+    margin-bottom: 200px;
+
+}
+
+.start{
+    display:flex;
+    flex-direction:column;
+   width: 100%;
+   color:white;
+   font-family: 'Minecraft', sans-serif;
+font-size: 40px;
+
+}
+.start div{
+    text-align: center;
+}
 
 
+img{ 
 
-img{
     border-radius: 30px  ; 
     margin-bottom:100px;
     align-self: center;

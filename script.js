@@ -10,17 +10,55 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+
+var playingAudio=[]
+
+function stopAudio(){
+
+for(let i=0;i<playingAudio.length;i++){
+
+playingAudio[i].pause()
+
+
+
+}
+
+
+}
+
+
+
+
+window.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, { passive: false });
+
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+});
 var thickness=5;
+$(".main").hide()
+
+
+
 
 $(".n").hide();
 $('canvas').hide();
-
+var activatedButton=false;
 var mouse = true;
 let lastX = 0;
 let lastY = 0;
 var timeout = [];
 var audio = $("audio")[0];
 audio.volume = 0.2;
+
+$("img[pid='0'").click(function(){
+  $(".start").hide(0)
+  $(".main").show(0)
+  $("audio")[3].play()
+
+})
 
 function clearTimeouts() {
   if (timeout.length > 0) {
@@ -32,6 +70,10 @@ function clearTimeouts() {
 }
 
 function accarezza() {
+  stopAudio()
+playingAudio.push($('audio')[2])
+playingAudio[playingAudio.length-1].play()
+
   if (mouse) {
     clearTimeouts();
     $(".d").children().t_off(true);
@@ -78,16 +120,24 @@ $(".gatto img").on('touchmove', function (event) {
     top: touch.pageY + 'px'
   });
 });
+$(".gatto img").click(function(){
+  
+  
 
+})
 $(".gatto img").on('touchstart', function (e) {
+ 
   if (mouse) {
+    stopAudio()
     const touch = e.touches[0];
     createParticle(touch.pageX, touch.pageY);
     clearTimeouts();
     $(".d").children().t_off(true);
     $(".gatto img").attr('src', `img/accarezza.gif`);
     $(".d").children().t("SMETTILA DI ACCAREZZARMI");
-
+    playingAudio.push($('audio')[2])
+  playingAudio[playingAudio.length-1].play()
+   
     let i = setInterval(() => {
       createParticle(touch.pageX, touch.pageY);
     }, 100);
@@ -97,11 +147,13 @@ $(".gatto img").on('touchstart', function (e) {
 
 $(".gatto img").on('touchend', function () {
   if (mouse) {
+    
     $('.particle').css('opacity', '0');
     timeout.push(setTimeout(function () {
       $(".gatto img").attr('src', `img/gatto.gif`);
       $(".d").children().t_off(true);
       $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA");
+      stopAudio()
     }, 5000));
 
     clearInterval($(this).data("intervalId")); 
@@ -113,6 +165,9 @@ if (mouse) {
 }
 
 $(`.box[pid='3']`).click(function () {
+  
+  stopAudio()
+
   if (mouse) {
     clearTimeouts();
     $(".d").children().t_off(true);
@@ -127,9 +182,14 @@ $(`.box[pid='3']`).click(function () {
   }
 });
 
+let isRunning=false;
 $(`.box[pid='4']`).click(function () {
+  stopAudio()
 
   mouse = false;
+  if (isRunning) return; 
+
+  isRunning = true;
   clearTimeouts();
   $(".d").children().t_off(true);
   $(".gatto img").attr('src', `img/triste2.gif`);
@@ -143,6 +203,7 @@ $(`.box[pid='4']`).click(function () {
 
       $(".n").toggle(1000);
       enableDrawing()
+      isRunning = false;
     }, 1000));
   });
 
@@ -152,6 +213,8 @@ $(`.box[pid='4']`).click(function () {
   
 
 $(`.box[pid='1']`).click(function () {
+  stopAudio()
+
   if (mouse) {
     clearTimeouts();
     $(".d").children().t_off(true);
@@ -162,17 +225,40 @@ $(`.box[pid='1']`).click(function () {
       $(".gatto img").attr('src', `img/beve.gif`);
       $(".d").children().t_off(true);
       $(".d").children().t("GLU GLU GLU");
+     let i=0;
+     playingAudio.push($('audio')[1])
+     playingAudio[ playingAudio.length-1].play()
+      $('audio')[1].onended=function(){
+        i++;
+        if (i < 3) { 
+          playingAudio[ playingAudio.length-1].currentTime = 0;  
+          playingAudio[ playingAudio.length-1].play();  
+        }
+        else{
+          playingAudio.pop()
 
+        }
+
+
+      }
+
+      
+    
+
+      
+      timeout.push(
       setTimeout(function () {
         $(".gatto img").attr('src', `img/gatto.gif`);
         $(".d").children().t_off(true);
         $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA");
-      }, 5000);
+      }, 5000));
     }, 5000));
   }
 });
 
 $(`.box[pid='2']`).click(function () {
+  stopAudio()
+
   if (mouse) {
     clearTimeouts();
     $(".d").children().t_off(true);
@@ -280,6 +366,7 @@ $canvas.addEventListener('touchstart', function (e) {
 });
 
 $(`.box[pid='8']`).click(function () {
+
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   ctx.beginPath();
 });
@@ -311,6 +398,50 @@ $(`.box[pid='7']`).click(function () {
 
 $(`.box[pid='5']`).click(function () {
   mouse = true;
+  console.log(activatedButton)
+  if(activatedButton){
+    $('.box').css('transform', 'scale(1.0)');
+    $(".box[pid='9'").addClass('m-t')
+    $(".box[pid='10'").addClass('m-t')
+    $(".box[pid='11'").addClass('m-t')
+    $(".box[pid='12'").addClass('m-t')
+    $(".box[pid='5'").addClass('m-t')
+    
+        
+        $('html').get(0).style.cssText = backupStyle.html;
+        $('body').get(0).style.cssText = backupStyle.body;
+        $('.selezione').get(0).style.cssText = backupStyle.selezione;
+        $('canvas').get(0).style.cssText = backupStyle.canvas;
+        $('.gatto').get(0).style.cssText = backupStyle.gatto;
+        $('.main').get(0).style.cssText = backupStyle.main;
+        $('.main').append($("img[pid='1']"))
+        $("img[pid='1']").get(0).style.cssText = backupStyle.img
+        $("img[pid='1']").attr('height','100px')
+        $("img[pid='1']").attr('width','100px')
+       
+    
+    
+        $(".box[pid='69']").remove()
+    
+        $canvas.width=200;
+        $canvas.height=200;
+    
+        $('.selezione .box').on('mousedown touchstart', function() {
+          $(this).css('transform', 'scale(1.2)'); 
+        });
+        
+        $('.selezione .box').on('mouseup touchend', function() {
+          $(this).css('transform', 'scale(1.0)'); 
+        });
+        
+        $(`.box[pid='14']`).remove();
+    
+        
+        flag1 = false;
+        activatedButton=false;
+
+
+  }
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   $('input')[0].value='black';
   $('canvas').hide();
@@ -389,8 +520,8 @@ else{
 
 
 });
-// Salva lo stato originale di tutti gli elementi principali
 let backupStyle = {
+  img:$("img[pid='1'").get(0).style.cssText,
   html: $('html').get(0).style.cssText,
   body: $('body').get(0).style.cssText,
   selezione: $('.selezione').get(0).style.cssText,
@@ -402,7 +533,7 @@ let backupStyle = {
 let flag1 = false;
 $(`.box[pid='10']`).click(function () {
   if (!flag1) {
-    // Modifica gli stili degli elementi principali
+    activatedButton=true;
     $('html').css('background', 'white');
     $('body').css('background', 'white');
     $('.selezione').css({
@@ -434,7 +565,7 @@ $(`.box[pid='10']`).click(function () {
       'height': window.innerHeight
     });
 
-    $('.selezione').append($('<div>').addClass('box').addClass('n').append( $("img[pid='1']")))
+    $('.selezione').append($('<div>').addClass('box').addClass('n').attr('pid','69').append( $("img[pid='1']")))
     $("img[pid='1']").attr('width','30px')
     $("img[pid='1']").attr('height','30px')
     
@@ -444,7 +575,7 @@ $(`.box[pid='10']`).click(function () {
 
     
     
-    // Aggiungi il pulsante "Nascondi"
+   
     $('.selezione').append(
       $('<div>')
         .addClass('box')
@@ -467,11 +598,11 @@ $(`.box[pid='10']`).click(function () {
     });
 
     $('.selezione .box').on('mousedown touchstart', function() {
-      $(this).css('transform', 'scale(0.8)'); // Aumenta la dimensione
+      $(this).css('transform', 'scale(0.8)'); 
     });
     
     $('.selezione .box').on('mouseup touchend', function() {
-      $(this).css('transform', 'scale(0.6)'); // Torna alla dimensione originale
+      $(this).css('transform', 'scale(0.6)'); 
     });
 
    
@@ -484,7 +615,9 @@ $(`.box[pid='10']`).click(function () {
     $canvas.height=window.innerHeight;
 
   } else {
+    activatedButton=false;
 
+   
     $('.box').css('transform', 'scale(1.0)');
 $(".box[pid='9'").addClass('m-t')
 $(".box[pid='10'").addClass('m-t')
@@ -492,24 +625,32 @@ $(".box[pid='11'").addClass('m-t')
 $(".box[pid='12'").addClass('m-t')
 $(".box[pid='5'").addClass('m-t')
 
-    // Ripristina lo stato originale
+    
     $('html').get(0).style.cssText = backupStyle.html;
     $('body').get(0).style.cssText = backupStyle.body;
     $('.selezione').get(0).style.cssText = backupStyle.selezione;
     $('canvas').get(0).style.cssText = backupStyle.canvas;
     $('.gatto').get(0).style.cssText = backupStyle.gatto;
     $('.main').get(0).style.cssText = backupStyle.main;
+    $('.main').append($("img[pid='1']"))
+    $("img[pid='1']").get(0).style.cssText = backupStyle.img
+    $("img[pid='1']").attr('height','100px')
+    $("img[pid='1']").attr('width','100px')
+   
+
+
+    $(".box[pid='69']").remove()
+
     $canvas.width=200;
     $canvas.height=200;
 
     $('.selezione .box').on('mousedown touchstart', function() {
-      $(this).css('transform', 'scale(1.2)'); // Aumenta la dimensione
+      $(this).css('transform', 'scale(1.2)');
     });
     
     $('.selezione .box').on('mouseup touchend', function() {
-      $(this).css('transform', 'scale(1.0)'); // Torna alla dimensione originale
+      $(this).css('transform', 'scale(1.0)'); 
     });
-    // Nascondi il pulsante "Nascondi"
     $(`.box[pid='14']`).remove();
 
     
