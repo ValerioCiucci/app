@@ -535,6 +535,107 @@ let backupStyle = {
 let flag1 = false;
 $(`.box[pid='10']`).click(function () {
   if (!flag1) {
+
+    $('.selezione').append(
+      $('<div>')
+          .addClass('box')
+          .attr('pid', '15')
+          .text('Carica Immagine')
+  );
+  
+ 
+    function makeDraggable(element) {
+      let posX = 0, posY = 0, lastX1 = 0, lastY2 = 0;
+    
+      element.onmousedown = dragMouseDown;
+      element.ontouchstart = dragTouchStart;
+    
+      function dragMouseDown(e) {
+        e = e || window.e;
+        e.preventDefault();
+        lastX1 = e.clientX;
+        lastY2 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+    
+      function dragTouchStart(e) {
+        const touch = e.touches[0];
+        lastX1 = touch.clientX;
+        lastY2 = touch.clientY;
+        document.ontouchend = closeDragElement;
+        document.ontouchmove = elementTouchDrag;
+      }
+    
+      function elementDrag(e) {
+        e = e || window.e;
+        e.preventDefault();
+        posX = lastX1 - e.clientX;
+        posY = lastY2 - e.clientY;
+        lastX1 = e.clientX;
+        lastY2 = e.clientY;
+        element.style.top = (element.offsetTop - posY) + "px";
+        element.style.left = (element.offsetLeft - posX) + "px";
+      }
+    
+      function elementTouchDrag(e) {
+        const touch = e.touches[0];
+        posX = lastX1 - touch.clientX;
+        posY = lastY2 - touch.clientY;
+        lastX = touch.clientX;
+        lastY = touch.clientY;
+        element.style.top = (element.offsetTop - posY) + "px";
+        element.style.left = (element.offsetLeft - posX) + "px";
+      }
+    
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+        document.ontouchend = null;
+        document.ontouchmove = null;
+      }
+    }
+    
+    // Aggiungi l'evento per caricare le immagini e renderle spostabili
+    $(`.box[pid='15']`).click(function () {
+      let fileInput = $('<input>').attr('type', 'file').attr('accept', 'image/*').hide();
+      $('body').append(fileInput); 
+      fileInput.click();
+    
+      fileInput.on('change', function (e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+    
+        reader.onload = function (event) {
+          const img = new Image();
+          img.src = event.target.result;
+          img.style.position = 'absolute';
+          img.style.top = '100px';
+          img.style.left = '100px';
+          img.style.width = '200px';
+          img.style.height = '200px'; 
+          img.style.cursor = 'move';
+    
+          $('.main').append(img)
+          $('img').addClass('loaded')
+          makeDraggable(img); 
+    
+          fileInput.remove();
+        };
+    
+        reader.readAsDataURL(file);
+      });
+
+
+     
+    });
+    
+  
+    
+
+
+
+
     activatedButton=true;
     $('html').css('background', 'white');
     $('body').css('background', 'white');
@@ -659,4 +760,18 @@ $(".box[pid='5'").addClass('m-t')
     
     flag1 = false;
   }
+});
+$(document).on('touchstart', '.loaded', function(){
+  
+
+  // Memorizza il riferimento all'elemento cliccato
+  var $this = $(this);
+
+  // Applica il bordo all'immagine cliccata
+  $this.css('border', '1px solid black');
+
+  // Rimuovi il bordo dopo 2 secondi
+  setTimeout(function(){
+    $this.css('border', '0px solid black');
+  }, 2000);
 });
