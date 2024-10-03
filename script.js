@@ -193,7 +193,7 @@ $(`.box[pid='4']`).click(function () {
   clearTimeouts();
   $(".d").children().t_off(true);
   $(".gatto img").attr('src', `img/triste2.gif`);
-  $(".d").children().t("HO CAPITO ME LEVO DAL CAZZO");
+  $(".d").children().t("HO CAPITO ME NE VADO");
 
   $(".gatto img").fadeOut(3000,function(){
     $(".d").fadeOut(100);
@@ -263,7 +263,7 @@ $(`.box[pid='2']`).click(function () {
     clearTimeouts();
     $(".d").children().t_off(true);
     $(".gatto img").attr('src', `img/arrabbiato.gif`);
-    $(".d").children().t("SEI UNO STRONZOO!");
+    $(".d").children().t("SEI CATTIVOO!");
 
     timeout.push(setTimeout(function () {
       $(".gatto img").attr('src', `img/gatto.gif`);
@@ -424,7 +424,8 @@ $(`.box[pid='5']`).click(function () {
         $(".main").show(0)
     
         $(".box[pid='69']").remove()
-    
+        $(".box[pid='15']").remove()
+
         $canvas.width=200;
         $canvas.height=200;
     
@@ -549,7 +550,28 @@ $(`.box[pid='10']`).click(function () {
     
       element.onmousedown = dragMouseDown;
       element.ontouchstart = dragTouchStart;
+      deleteImg(element);
+
+
+      function deleteImg(image) {
+        let container= $('.main')[0]
+
+        let lastTapTime = 0; 
     
+        image.addEventListener('touchstart', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+    
+            if (tapLength < 300 && tapLength > 0) {
+                
+              
+                container.removeChild(image); 
+                images = images.filter(img => img !== image); 
+            }
+    
+            lastTapTime = currentTime;
+        });
+    }
       function dragMouseDown(e) {
         e = e || window.e;
         e.preventDefault();
@@ -596,7 +618,7 @@ $(`.box[pid='10']`).click(function () {
       }
     }
     
-    // Aggiungi l'evento per caricare le immagini e renderle spostabili
+
     $(`.box[pid='15']`).click(function () {
       let fileInput = $('<input>').attr('type', 'file').attr('accept', 'image/*').hide();
       $('body').append(fileInput); 
@@ -617,7 +639,7 @@ $(`.box[pid='10']`).click(function () {
           img.style.cursor = 'move';
     
           $('.main').append(img)
-          $('img').addClass('loaded')
+          $('img').last().addClass('loaded')
           makeDraggable(img); 
     
           fileInput.remove();
@@ -629,6 +651,8 @@ $(`.box[pid='10']`).click(function () {
 
      
     });
+
+    
     
   
     
@@ -717,6 +741,9 @@ $(`.box[pid='10']`).click(function () {
     $canvas.width=window.innerWidth;
     $canvas.height=window.innerHeight;
 
+
+
+
   } else {
     
     activatedButton=false;
@@ -744,6 +771,8 @@ $(".box[pid='5'").addClass('m-t')
     $(".main").show(0)
 
     $(".box[pid='69']").remove()
+    $(".box[pid='15']").remove()
+
 
     $canvas.width=200;
     $canvas.height=200;
@@ -764,14 +793,14 @@ $(".box[pid='5'").addClass('m-t')
 $(document).on('touchstart', '.loaded', function(){
   
 
-  // Memorizza il riferimento all'elemento cliccato
-  var $this = $(this);
+ 
+  var app = $(this);
 
-  // Applica il bordo all'immagine cliccata
-  $this.css('border', '1px solid black');
+  
+  app.css('border', '1px solid black');
 
-  // Rimuovi il bordo dopo 2 secondi
+
   setTimeout(function(){
-    $this.css('border', '0px solid black');
+    app.css('border', '0px solid black');
   }, 2000);
 });
