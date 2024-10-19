@@ -228,19 +228,7 @@ $(`.box[pid='1']`).click(function () {
      let i=0;
      playingAudio.push($('audio')[1])
      playingAudio[ playingAudio.length-1].play()
-      $('audio')[1].onended=function(){
-        i++;
-        if (i < 3) { 
-          playingAudio[ playingAudio.length-1].currentTime = 0;  
-          playingAudio[ playingAudio.length-1].play();  
-        }
-        else{
-          playingAudio.pop()
-
-        }
-
-
-      }
+      
 
       
     
@@ -251,8 +239,8 @@ $(`.box[pid='1']`).click(function () {
         $(".gatto img").attr('src', `img/gatto.gif`);
         $(".d").children().t_off(true);
         $(".d").children().t("HO VOGLIA DI UN BUBBLE TEA");
-      }, 5000));
-    }, 5000));
+      }, 4000));
+    }, 4000));
   }
 });
 
@@ -276,7 +264,7 @@ $(`.box[pid='2']`).click(function () {
 let drawingEnabled = false;
 const $canvas = $('canvas')[0];
 const ctx = $canvas.getContext('2d');
-let color = $('input')[0].value;
+let color = $('input')[1].value;
 let firstTouch = false;
 let back =[]
 let forward=[];
@@ -302,7 +290,7 @@ function draw(x, y) {
 
 function enableDrawing() {
   ctx.beginPath();
-  color = $('input')[0].value;
+  color = $('input')[1].value;
   $('canvas').show();
   drawingEnabled = true;
 }
@@ -447,7 +435,7 @@ $(`.box[pid='5']`).click(function () {
 
   }
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-  $('input')[0].value='black';
+  $('input')[1].value='black';
   $('canvas').hide();
   clearTimeouts();
 
@@ -782,9 +770,95 @@ $(`.box[pid='10']`).click(function () {
     $(`.box[pid='14']`).click(function () {
       flag = !flag;
       $(this).text(flag ? 'Nascondi' : 'Mostra');
-      $('.n').not('.m').toggle("slide:right");
+
+
+      $('.n').not('.m').not('.bar').toggle("slide:right");
+
+      if ($('.bar').css('display')!='none'){
+
+        $('.bar').toggle("slide:right")
+      }
+
       $("img[pid='1']").not('.m').toggle("slide:right");
     });
+
+    $(`.box[pid='76']`).click(function (event) {
+
+
+      document.getElementById('fileInput').click();
+
+      document.getElementById('fileInput').addEventListener('change', function(event) {
+       // Verifica se ci sono file selezionati
+    if (!event.target.files || event.target.files.length === 0) {
+      alert("Nessun file selezionato.");
+      return;  // Interrompe l'esecuzione se non ci sono file
+  }
+
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+      try {
+          const projectData = JSON.parse(e.target.result);
+
+          // Ottieni il canvas e cancella il contenuto attuale
+          const canvas = document.getElementById('myCanvas');
+          const context = canvas.getContext('2d');
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Ricostruisci il progetto
+          const img = new Image();
+          img.onload = function() {
+              context.drawImage(img, 0, 0);
+          };
+          img.src = projectData.canvas;
+
+          // Ripristina le immagini sovrapposte (se presenti)
+          projectData.images.forEach(imageData => {
+              const img = new Image();
+              img.src = imageData.src;
+              img.onload = function() {
+                  context.drawImage(img, imageData.x, imageData.y, imageData.width, imageData.height);
+              };
+          });
+      } catch (error) {
+          alert("Errore nel caricamento del progetto. File JSON non valido.");
+          console.error(error);
+      }
+  }
+
+  // Legge il file JSON caricato
+  reader.readAsText(file);
+
+
+    })
+  })
+  
+
+    $(`.box[pid='77']`).click(function () {
+
+      const canvas = document.getElementById('myCanvas');
+      const context = canvas.getContext('2d');
+      
+      const imagesData = []; 
+  
+     
+      const projectData = {
+          images: imagesData,
+          canvas: canvas.toDataURL()
+      };
+  
+      
+      const jsonString = JSON.stringify(projectData);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'progetto.json'; 
+      link.click();
+    });
+
+
+
 
     $('.selezione .box').on('mousedown touchstart', function() {
       $(this).css('transform', 'scale(0.8)'); 
