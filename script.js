@@ -422,9 +422,10 @@ $(`.box[pid='5']`).click(function () {
         $("img[pid='1']").attr('width','100px')
        
         $(".main").show(0)
-    
-        $(".box[pid='69']").remove()
-        $(".box[pid='15']").remove()
+        $('.bar').remove()
+
+       
+        $(".box[pid='98']").remove()
 
         $canvas.width=200;
         $canvas.height=200;
@@ -539,9 +540,59 @@ $(`.box[pid='10']`).click(function () {
 
     $('.selezione').append(
       $('<div>')
+      .css('display','flex')
+      .css('width','80%')
+      
+      
+      .append(
+      $('<div>')
           .addClass('box')
-          .attr('pid', '15')
-          .text('Carica Immagine')
+          .addClass('n')
+          .attr('pid', '98')
+          .text('Strumenti')
+      ).append(
+        $('<div>')
+            .addClass('box')
+            .addClass('n')
+            .attr('pid', '15')
+            .text('Carica immagine')
+            .css('display','none')
+            .addClass('bar')
+        )
+        .append(
+          $('<div>')
+              .addClass('box')
+              .addClass('n')
+              .attr('pid', '76')
+              .text('Carica progetto')
+              .css('display','none')
+              .addClass('bar')
+          )
+          .append(
+            $('<div>')
+                .addClass('box')
+                .addClass('n')
+                .attr('pid', '77')
+                .text('Salva progetto')
+                .css('display','none')
+                .addClass('bar')
+            )
+
+            .append(
+
+              $('<div>').addClass('n').attr('pid','69').append( $("img[pid='1']")).css('display','none')
+              .addClass('bar').addClass('box').css('border','0px').addClass('noremove')
+
+              
+
+
+
+
+
+
+            )
+            
+
   );
   
  
@@ -670,7 +721,7 @@ $(`.box[pid='10']`).click(function () {
       'width': 'fit-content',
       'height': 'fit-content',
       'position': 'absolute',
-      'top': '50px',
+      'top': '10px',
       'left': '0'
     });
 
@@ -692,7 +743,9 @@ $(`.box[pid='10']`).click(function () {
       'height': window.innerHeight
     });
 
-    $('.selezione').append($('<div>').addClass('box').addClass('n').attr('pid','69').append( $("img[pid='1']")))
+   
+   
+
     $("img[pid='1']").attr('width','30px')
     $("img[pid='1']").attr('height','30px')
     
@@ -717,6 +770,15 @@ $(`.box[pid='10']`).click(function () {
     $('.m-t').removeClass('m-t');
     
     let flag = true;
+
+    $(`.box[pid='98']`).click(function () {
+
+      
+      $('.bar').fadeToggle(500)
+
+
+    })
+
     $(`.box[pid='14']`).click(function () {
       flag = !flag;
       $(this).text(flag ? 'Nascondi' : 'Mostra');
@@ -748,7 +810,13 @@ $(`.box[pid='10']`).click(function () {
     
     activatedButton=false;
 
-   
+    $('.bar').remove()
+
+       
+    $(".box[pid='98']").remove()
+
+
+
     $('.box').css('transform', 'scale(1.0)');
 $(".box[pid='9'").addClass('m-t')
 $(".box[pid='10'").addClass('m-t')
