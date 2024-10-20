@@ -976,7 +976,86 @@ $(`.box[pid='77']`).click(function () {
   link.click(); // Simula il clic per scaricare il file
 });
 
+// Array per memorizzare le immagini e le loro informazioni
+let images = [];
 
+// Variabili per il pinch
+let initialDistance = 0;
+let selectedImage = null;
+let initialWidth, initialHeight;
+
+// Funzione per disegnare tutte le immagini
+function drawImages() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    images.forEach(imgObj => {
+        ctx.drawImage(imgObj.img, imgObj.x, imgObj.y, imgObj.width, imgObj.height);
+    });
+}
+
+// Aggiungi un'immagine al canvas e al tracker
+function addImageToCanvas(imgSrc, x, y, width, height) {
+    const img = new Image();
+    img.src = imgSrc;
+    img.onload = function () {
+        images.push({ img, x, y, width, height });
+        drawImages();  // Disegna tutte le immagini
+    };
+}
+
+// Monitorare il touchstart per il pinch
+canvas.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 2) {
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        initialDistance = Math.hypot(
+            touch2.pageX - touch1.pageX,
+            touch2.pageY - touch1.pageY
+        );
+
+        // Determina se un'immagine è selezionata
+        const x1 = touch1.pageX - canvas.offsetLeft;
+        const y1 = touch1.pageY - canvas.offsetTop;
+        images.forEach(imgObj => {
+            if (x1 >= imgObj.x && x1 <= imgObj.x + imgObj.width && 
+                y1 >= imgObj.y && y1 <= imgObj.y + imgObj.height) {
+                selectedImage = imgObj;
+                initialWidth = imgObj.width;
+                initialHeight = imgObj.height;
+            }
+        });
+    }
+});
+
+// Monitorare il touchmove per il pinch
+canvas.addEventListener('touchmove', function (e) {
+    if (e.touches.length === 2 && selectedImage) {
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        const currentDistance = Math.hypot(
+            touch2.pageX - touch1.pageX,
+            touch2.pageY - touch1.pageY
+        );
+
+        // Calcola il fattore di scala
+        const scale = currentDistance / initialDistance;
+
+        // Ridimensiona l'immagine selezionata
+        selectedImage.width = initialWidth * scale;
+        selectedImage.height = initialHeight * scale;
+
+        // Ridisegna il canvas
+        drawImages();
+        e.preventDefault();
+    }
+});
+
+// Resetta il pinch al termine del tocco
+canvas.addEventListener('touchend', function (e) {
+    if (e.touches.length < 2) {
+        selectedImage = null;
+        initialDistance = 0;
+    }
+});
 
 
     $('.selezione .box').on('mousedown touchstart', function() {
@@ -1065,3 +1144,12 @@ $(document).on('touchstart', '.loaded', function(){
     app.css('border', '0px solid black');
   }, 2000);
 });
+
+
+
+
+
+
+
+
+
