@@ -294,6 +294,8 @@ function draw(x, y) {
 }
 
 function enableDrawing() {
+  ctx.globalCompositeOperation = 'source-over';
+
   draggingImg = false;
   ctx.beginPath();
   color = $("input")[1].value;
@@ -396,7 +398,8 @@ $(`.box[pid='12']`).click(function () {
 });
 
 $(`.box[pid='7']`).click(function () {
-  color = 'white';
+  
+  ctx.globalCompositeOperation = 'destination-out';
   ctx.beginPath();
 });
 
