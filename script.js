@@ -760,18 +760,38 @@ $(`.box[pid='10']`).click(function () {
 
 
 
-    function imageResize(distanceX, distanceY) {
-      distanceX=(distanceX/$canvas.width)*100
-      distanceY=(distanceY/$canvas.height)*100
+    function imageResize(distanceX, distanceY,isIncreasingX,isIncreasingY) {
+      
 
-      pimgWidth=(imgWidth/$canvas.width)*100;
-      pimgHeight=(imgHeight/$canvas.height)*100;
+      if(isIncreasingX){
+
+        imgWidth=imgWidth*1.01;
+
+      }
+      else{
+        imgWidth=imgWidth*0.99;
+
+      }
+
+      if(isIncreasingY){
+
+        imgHeight=imgHeight*1.01;
+
+      }
+      else{
+        imgHeight=imgHeight*0.99;
+
+      }
+
+
+      // pimgWidth=(imgWidth/$canvas.width)*100;
+      // pimgHeight=(imgHeight/$canvas.height)*100;
 
 
 
 
-      imgWidth=((pimgWidth-distanceX)/100)*$canvas.width
-      imgHeight=((pimgHeight-distanceY)/100)*$canvas.height
+      // imgWidth=((pimgWidth-distanceX)/100)*$canvas.width
+      // imgHeight=((pimgHeight-distanceY)/100)*$canvas.height
 
 
       drawImage();
@@ -784,6 +804,9 @@ $(`.box[pid='10']`).click(function () {
       var distanceX = 0;
       var distanceY = 0;
       var isResizing = false;
+      var isIncreasingX=false;
+      var isIncreasingY=false;
+
       const touch = e.touches[0];
       const touch2 = e.touches[1];
       const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
@@ -813,7 +836,8 @@ $(`.box[pid='10']`).click(function () {
       canvas.addEventListener('touchmove', function (e) {
         const touch = e.touches[0];
         const touch2 = e.touches[1];
-
+        
+        
         const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
         const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
 
@@ -823,22 +847,74 @@ $(`.box[pid='10']`).click(function () {
         if (isResizing){
 
         if (mouseX > mouseX2) {
+          appX=distanceX;
+
           distanceX = mouseX - mouseX2;
+
+
+          if(appX>distanceX)
+            {
+              isIncreasingX=false;
+
+
+
+          }
+          else{
+            isIncreasingX=true;
+            
+          }
         }
         else {
+          appX=distanceX;
+
           distanceX = mouseX2 - mouseX;
 
+          if(appX>distanceX)
+            {
+              isIncreasingX=false;
 
+
+
+          }
+          else{
+            isIncreasingX=true;
+            
+          }
 
         }
         if (mouseY > mouseY2) {
+          appY=distanceY;
+
           distanceY = mouseY - mouseY2;
+
+          if(appY>distanceY)
+            {
+              isIncreasingY=false;
+
+
+
+          }
+          else{
+            isIncreasingY=true;
+
+          }
         }
         else {
+          if(appY>distanceY)
+            {
+              isIncreasingY=false;
+
+
+
+          }
+          else{
+            isIncreasingY=true;
+            
+          }
           distanceY = mouseY2 - mouseY
         }
 
-        imageResize(distanceX, distanceY);
+        imageResize(distanceX, distanceY,isIncreasingX,isIncreasingY);
       }
       });
 
