@@ -13,6 +13,35 @@ if ('serviceWorker' in navigator) {
 
 var playingAudio = []
 var imagesData = [];
+var imagesData1 = [];
+var imagePositions = []
+
+var imageDimensions = []
+
+var imgWidth, imgHeight;
+var dragOffsetX = 0;
+var dragOffsetY = 0;
+var lines=[]
+
+function drawAllLines() {
+  lines.forEach(line => {
+      ctx.beginPath();
+      ctx.moveTo(line.startX, line.startY);
+      ctx.lineTo(line.endX, line.endY);
+      ctx.strokeStyle = line.color;
+      ctx.lineWidth = line.lineWidth;
+      ctx.stroke();
+  });
+}
+
+function Line(startX, startY, endX, endY, color, lineWidth) {
+  this.startX = startX;
+  this.startY = startY;
+  this.endX = endX;
+  this.endY = endY;
+  this.color = color;
+  this.lineWidth = lineWidth;
+}
 function stopAudio() {
 
   for (let i = 0; i < playingAudio.length; i++) {
@@ -50,6 +79,8 @@ var mouse = true;
 let lastX = 0;
 let lastY = 0;
 var timeout = [];
+
+
 var audio = $("audio")[0];
 audio.volume = 0.2;
 
@@ -285,8 +316,12 @@ function draw(x, y) {
       firstTouch = false;
     } else {
       ctx.lineTo(x, y);
+      lines.push(new Line(lastX, lastY, x, y, color, thickness));
     }
+    
   }
+
+  
   ctx.stroke();
   lastX = x;
   lastY = y;
@@ -332,6 +367,9 @@ $canvas.addEventListener('mousedown', function (e) {
 
   $canvas.addEventListener('mouseup', function () {
     draw1 = false;
+
+   
+
   }, { once: true });
 });
 
@@ -361,22 +399,32 @@ $canvas.addEventListener('touchstart', function (e) {
 
   $canvas.addEventListener('touchend', function () {
     draw1 = false;
+    
 
   }, { once: true });
 });
 
+
+//cestino
 $(`.box[pid='8']`).click(function () {
 
 
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   ctx.beginPath();
-  imagesData = []
+  imagesData1 = []
+  imagePositions = []
+  imageDimensions = []
+  dragOffsetX = 0
+  dragOffsetY = 0
+
+
 
 
 
 
 });
 
+//freccia indietro
 $(`.box[pid='11']`).click(function () {
   forward.push(ctx.getImageData(0, 0, $canvas.width, $canvas.height));
 
@@ -387,6 +435,7 @@ $(`.box[pid='11']`).click(function () {
   ctx.beginPath()
 
 });
+//freccia avanti
 $(`.box[pid='12']`).click(function () {
   back.push(ctx.getImageData(0, 0, $canvas.width, $canvas.height));
 
@@ -396,9 +445,9 @@ $(`.box[pid='12']`).click(function () {
   ctx.beginPath()
 
 });
-
+//gomma
 $(`.box[pid='7']`).click(function () {
-  
+
   ctx.globalCompositeOperation = 'destination-out';
   ctx.beginPath();
 });
@@ -602,94 +651,18 @@ $(`.box[pid='10']`).click(function () {
 
 
     );
-
-
-    // function makeDraggable(element) {
-    //   let posX = 0, posY = 0, lastX1 = 0, lastY2 = 0;
-
-    //   element.onmousedown = dragMouseDown;
-    //   element.ontouchstart = dragTouchStart;
-    //   deleteImg(element);
-
-
-    //   function deleteImg(image) {
-    //     let container= $('.main')[0]
-
-    //     let lastTapTime = 0; 
-
-    //     image.addEventListener('touchstart', function(e) {
-    //         const currentTime = new Date().getTime();
-    //         const tapLength = currentTime - lastTapTime;
-
-    //         if (tapLength < 300 && tapLength > 0) {
-
-
-    //             container.removeChild(image); 
-    //             images = images.filter(img => img !== image); 
-    //         }
-
-    //         lastTapTime = currentTime;
-    //     });
-    // }
-    //   function dragMouseDown(e) {
-    //     e = e || window.e;
-    //     e.preventDefault();
-    //     lastX1 = e.clientX;
-    //     lastY2 = e.clientY;
-    //     document.onmouseup = closeDragElement;
-    //     document.onmousemove = elementDrag;
-    //   }
-
-    //   function dragTouchStart(e) {
-    //     const touch = e.touches[0];
-    //     lastX1 = touch.clientX;
-    //     lastY2 = touch.clientY;
-    //     document.ontouchend = closeDragElement;
-    //     document.ontouchmove = elementTouchDrag;
-    //   }
-
-    //   function elementDrag(e) {
-    //     e = e || window.e;
-    //     e.preventDefault();
-    //     posX = lastX1 - e.clientX;
-    //     posY = lastY2 - e.clientY;
-    //     lastX1 = e.clientX;
-    //     lastY2 = e.clientY;
-    //     element.style.top = (element.offsetTop - posY) + "px";
-    //     element.style.left = (element.offsetLeft - posX) + "px";
-    //   }
-
-    //   function elementTouchDrag(e) {
-    //     const touch = e.touches[0];
-    //     posX = lastX1 - touch.clientX;
-    //     posY = lastY2 - touch.clientY;
-    //     lastX = touch.clientX;
-    //     lastY = touch.clientY;
-    //     element.style.top = (element.offsetTop - posY) + "px";
-    //     element.style.left = (element.offsetLeft - posX) + "px";
-    //   }
-
-    //   function closeDragElement() {
-    //     document.onmouseup = null;
-    //     document.onmousemove = null;
-    //     document.ontouchend = null;
-    //     document.ontouchmove = null;
-    //   }
-    // }
-
-
     let isDragging = false;
-    let imgX = 50; // Posizione iniziale X
-    let imgY = 50; // Posizione iniziale Y
-    var imgWidth, imgHeight;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
+
+
     let img = new Image(); // L'immagine che verrà caricata
     let canvas = document.getElementById('myCanvas');
     let context = canvas.getContext('2d');
-
+    
     // Carica l'immagine tramite file input
     $(`.box[pid='15']`).click(function () {
+
+  
+
       let fileInput = $('<input>').attr('type', 'file').attr('accept', 'image/*').hide();
       $('body').append(fileInput);
       fileInput.click();
@@ -699,19 +672,22 @@ $(`.box[pid='10']`).click(function () {
         const reader = new FileReader();
 
         reader.onload = function (event) {
+          img = new Image()
           img.src = event.target.result;
 
           img.onload = function () {
             // Imposta dimensioni del canvas in base all'immagine
+            imagePositions.push([50, 50])
 
 
             // Memorizza larghezza e altezza dell'immagine
-            imgWidth = img.width;
-            imgHeight = img.height;
-            imagesData.push(img)
-            console.log(imagesData[imagesData.length - 1])
+            imageDimensions.push([img.width, img.height]);
+
+
+            imagesData1.push(img)
+
             // Disegna immagine iniziale
-            context.drawImage(imagesData[imagesData.length - 1], imgX, imgY, imgWidth, imgHeight);
+            context.drawImage(imagesData1[imagesData1.length - 1], imagePositions[imagePositions.length - 1][0], imagePositions[imagePositions.length - 1][1], imageDimensions[imageDimensions.length - 1][0], imageDimensions[imageDimensions.length - 1][1]);
           };
 
           fileInput.remove();
@@ -722,67 +698,52 @@ $(`.box[pid='10']`).click(function () {
     });
 
     // Funzione per disegnare l'immagine
-    function drawImage() {
+    function drawImage(nImage) {
       context.clearRect(0, 0, canvas.width, canvas.height); // Pulisce il canvas
-      context.drawImage(imagesData[imagesData.length - 1], imgX, imgY, imgWidth, imgHeight); // Ridisegna l'immagine nella nuova posizione
-    }
-
-    // Eventi per abilitare il trascinamento con il mouse
-    canvas.addEventListener('mousedown', function (e) {
-      // Calcola l'offset per il trascinamento
-      const mouseX = e.offsetX;
-      const mouseY = e.offsetY;
-
-      // Controlla se l'utente ha cliccato sull'immagine
-      if (mouseX >= imgX && mouseX <= imgX + imgWidth && mouseY >= imgY && mouseY <= imgY + imgHeight) {
-        isDragging = true;
+  drawAllLines()
 
 
-        dragOffsetX = mouseX - imgX;
-        dragOffsetY = mouseY - imgY;
+      // Disegna tutte le immagini tranne quella che stai spostando
+      for (let x = 0; x < imagesData1.length; x++) {
+          if (x !== nImage) {
+              if (imagesData1[x] instanceof HTMLImageElement && imagesData1[x].complete) { // Verifica se l'immagine è caricata
+                  context.drawImage(imagesData1[x], imagePositions[x][0], imagePositions[x][1], imageDimensions[x][0], imageDimensions[x][1]);
+              }
+          }
       }
-    });
-
-    canvas.addEventListener('mousemove', function (e) {
-
-      if (isDragging) {
-
-        // Aggiorna la posizione dell'immagine durante il trascinamento
-        imgX = e.offsetX - dragOffsetX;
-        imgY = e.offsetY - dragOffsetY;
-        drawImage(); // Ridisegna il canvas con l'immagine spostata
+  
+      // Ridisegna l'immagine spostata solo se è completamente caricata
+      if (imagesData1[nImage] instanceof HTMLImageElement && imagesData1[nImage].complete) {
+          context.drawImage(imagesData1[nImage], imagePositions[nImage][0], imagePositions[nImage][1], imageDimensions[nImage][0], imageDimensions[nImage][1]);
       }
-    });
-
-    canvas.addEventListener('mouseup', function () {
-      isDragging = false; // Fine del trascinamento
-
-
-    });
+  }
+  
 
 
 
 
-    function imageResize(distanceX, distanceY,isIncreasingX,isIncreasingY) {
-      
 
-      if(isIncreasingX){
 
-        imgWidth=imgWidth*1.01;
+    function imageResize(nImage, isIncreasingX, isIncreasingY) {
+
+
+      if (isIncreasingX) {
+
+        imageDimensions[nImage][0] =imageDimensions[nImage][0] * 1.01;
 
       }
-      else{
-        imgWidth=imgWidth*0.99;
+      else {
+        imageDimensions[nImage][0] = imageDimensions[nImage][0] * 0.99;
 
       }
 
-      if(isIncreasingY){
+      if (isIncreasingY) {
 
-        imgHeight=imgHeight*1.01;
+        imageDimensions[nImage][1] = imageDimensions[nImage][1] * 1.01;
 
       }
-      else{
-        imgHeight=imgHeight*0.99;
+      else {
+        imageDimensions[nImage][1] = imageDimensions[nImage][1] * 0.99;
 
       }
 
@@ -797,158 +758,60 @@ $(`.box[pid='10']`).click(function () {
       // imgHeight=((pimgHeight-distanceY)/100)*$canvas.height
 
 
-      drawImage();
+      drawImage(nImage);
 
 
 
     }
 
+
+
+
+    //funzione per spostare immagini
+    var nImage = 0;
     canvas.addEventListener('touchstart', function (e) {
-      var distanceX = 0;
-      var distanceY = 0;
-      var isResizing = false;
-      var isIncreasingX=false;
-      var isIncreasingY=false;
 
-      const touch = e.touches[0];
-      const touch2 = e.touches[1];
-      const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
-      const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
-
-      const mouseX2 = touch2.clientX - canvas.getBoundingClientRect().left;
-      const mouseY2 = touch2.clientY - canvas.getBoundingClientRect().top;
-
-
-
-      if (mouseX >= imgX && mouseX <= imgX + imgWidth && mouseY >= imgY && mouseY <= imgY + imgHeight) {
-
-        if (mouseX2 >= imgX && mouseX2 <= imgX + imgWidth && mouseY2 >= imgY && mouseY2 <= imgY + imgHeight) {
-
-          isResizing = true;
-
-
-
-
-
-
-        }
-      }
-
-
-
-      canvas.addEventListener('touchmove', function (e) {
-        const touch = e.touches[0];
-        const touch2 = e.touches[1];
-        
-        
-        const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
-        const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
-
-        const mouseX2 = touch2.clientX - canvas.getBoundingClientRect().left;
-        const mouseY2 = touch2.clientY - canvas.getBoundingClientRect().top;
-
-        if (isResizing){
-
-        if (mouseX > mouseX2) {
-          appX=distanceX;
-
-          distanceX = mouseX - mouseX2;
-
-
-          if(appX>distanceX)
-            {
-              isIncreasingX=false;
-
-
-
-          }
-          else{
-            isIncreasingX=true;
-            
-          }
-        }
-        else {
-          appX=distanceX;
-
-          distanceX = mouseX2 - mouseX;
-
-          if(appX>distanceX)
-            {
-              isIncreasingX=false;
-
-
-
-          }
-          else{
-            isIncreasingX=true;
-            
-          }
-
-        }
-        if (mouseY > mouseY2) {
-          appY=distanceY;
-
-          distanceY = mouseY - mouseY2;
-
-          if(appY>distanceY)
-            {
-              isIncreasingY=false;
-
-
-
-          }
-          else{
-            isIncreasingY=true;
-
-          }
-        }
-        else {
-          if(appY>distanceY)
-            {
-              isIncreasingY=false;
-
-
-
-          }
-          else{
-            isIncreasingY=true;
-            
-          }
-          distanceY = mouseY2 - mouseY
-        }
-
-        imageResize(distanceX, distanceY,isIncreasingX,isIncreasingY);
-      }
-      });
-
-
-
-      canvas.addEventListener('touchend', function (e) {
-
-
-isResizing=false;
-
-
-
-
-      });
-    }
-);
-
-
-    // Aggiungiamo anche i gesti touch per dispositivi mobili
-    canvas.addEventListener('touchstart', function (e) {
       const touch = e.touches[0];
       const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
       const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
 
       // Controlla se l'utente ha toccato l'immagine
-      if (mouseX >= imgX && mouseX <= imgX + imgWidth && mouseY >= imgY && mouseY <= imgY + imgHeight) {
-        isDragging = true;
+      let cont = 0
 
-        draggingImg = true;
-        dragOffsetX = mouseX - imgX;
-        dragOffsetY = mouseY - imgY;
+
+      if (imagePositions.length > 0) {
+        for (position of imagePositions) {
+
+
+          if (mouseX >= position[0] && mouseX <= position[0] + imageDimensions[cont][0] && mouseY >= position[1] && mouseY <= position[1] + imageDimensions[cont][1]) {
+            ctx.globalCompositeOperation = 'source-over';
+
+            isDragging = true;
+
+
+            draggingImg = true;
+            dragOffsetX = mouseX - position[0];
+            dragOffsetY = mouseY - position[1];
+            nImage = cont;
+
+
+          }
+          cont++;
+
+
+        }
+
+        cont = 0;
+        // if (mouseX >= imgX && mouseX <= imgX + imgWidth && mouseY >= imgY && mouseY <= imgY + imgHeight && imagesData1.length>0) {
+        //   ctx.globalCompositeOperation = 'source-over';
+
+        //   isDragging = true;
+
+
+        //   draggingImg = true;
+        //   dragOffsetX = mouseX - imgX;
+        //   dragOffsetY = mouseY - imgY;
+        // }
       }
     });
 
@@ -963,9 +826,10 @@ isResizing=false;
         const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
 
         // Aggiorna la posizione dell'immagine durante il trascinamento
-        imgX = mouseX - dragOffsetX;
-        imgY = mouseY - dragOffsetY;
-        drawImage(); // Ridisegna l'immagine
+        imagePositions[nImage][0] = mouseX - dragOffsetX;
+        imagePositions[nImage][1] = mouseY - dragOffsetY;
+        console.log(nImage)
+        drawImage(nImage); // Ridisegna l'immagine
 
       }
     });
@@ -973,11 +837,158 @@ isResizing=false;
     canvas.addEventListener('touchend', function () {
       isDragging = false; // Fine del trascinamento su touch
       draggingImg = false;
+
+
     });
 
 
 
+    //ridimensionamento immagini 
 
+    canvas.addEventListener('touchstart', function (e) {
+      var distanceX = 0;
+      var distanceY = 0;
+      var isResizing = false;
+      var isIncreasingX = false;
+      var isIncreasingY = false;
+      if (e.touches.length > 1) {
+
+        const touch = e.touches[0];
+        const touch2 = e.touches[1];
+        const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
+        const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
+
+        const mouseX2 = touch2.clientX - canvas.getBoundingClientRect().left;
+        const mouseY2 = touch2.clientY - canvas.getBoundingClientRect().top;
+
+        let cont=0;
+        if (imagePositions.length > 0) {
+          for (position of imagePositions) {
+  
+            
+            if (mouseX >= position[0] && mouseX <= position[0] + imageDimensions[cont][0] && mouseY >= position[1] && mouseY <= position[1] + imageDimensions[cont][1]) {
+              if (mouseX2 >= position[0] && mouseX2 <= position[0] + imageDimensions[cont][0] && mouseY2 >= position[1] && mouseY2 <= position[1] + imageDimensions[cont][1]) {
+
+                isResizing = true;
+    
+                nImage=cont;
+    
+    
+    
+    
+              }
+            
+            }
+            cont++;
+  
+  
+          }
+  
+          cont = 0;
+        }
+        
+
+          
+
+
+
+        canvas.addEventListener('touchmove', function (e) {
+          const touch = e.touches[0];
+          const touch2 = e.touches[1];
+
+
+          const mouseX = touch.clientX - canvas.getBoundingClientRect().left;
+          const mouseY = touch.clientY - canvas.getBoundingClientRect().top;
+
+          const mouseX2 = touch2.clientX - canvas.getBoundingClientRect().left;
+          const mouseY2 = touch2.clientY - canvas.getBoundingClientRect().top;
+
+          if (isResizing) {
+
+            if (mouseX > mouseX2) {
+              appX = distanceX;
+
+              distanceX = mouseX - mouseX2;
+
+
+              if (appX > distanceX) {
+                isIncreasingX = false;
+
+
+
+              }
+              else {
+                isIncreasingX = true;
+
+              }
+            }
+            else {
+              appX = distanceX;
+
+              distanceX = mouseX2 - mouseX;
+
+              if (appX > distanceX) {
+                isIncreasingX = false;
+
+
+
+              }
+              else {
+                isIncreasingX = true;
+
+              }
+
+            }
+            if (mouseY > mouseY2) {
+              appY = distanceY;
+
+              distanceY = mouseY - mouseY2;
+
+              if (appY > distanceY) {
+                isIncreasingY = false;
+
+
+
+              }
+              else {
+                isIncreasingY = true;
+
+              }
+            }
+            else {
+              if (appY > distanceY) {
+                isIncreasingY = false;
+
+
+
+              }
+              else {
+                isIncreasingY = true;
+
+              }
+              distanceY = mouseY2 - mouseY
+            }
+
+            imageResize(nImage, isIncreasingX, isIncreasingY);
+          }
+        }
+        );
+
+
+
+        canvas.addEventListener('touchend', function (e) {
+
+
+          isResizing = false;
+
+
+
+
+        });
+      }
+    }
+    
+);
 
 
 
@@ -1066,97 +1077,134 @@ isResizing=false;
 
       $("img[pid='1']").not('.m').toggle("slide:right");
     });
+
+
     // Funzione per caricare il progetto
     $(`.box[pid='76']`).click(function (event) {
+      imagesData1 = [];
+      imagePositions = [];
+      imageDimensions = [];
+      lines = []; // Resetta le linee
+
+      dragOffsetX = 0;
+      dragOffsetY = 0;
+  
       document.getElementById('fileInput').click();
-
+  
       document.getElementById('fileInput').addEventListener('change', function (event) {
-        if (!event.target.files || event.target.files.length === 0) {
-          alert("Nessun file selezionato.");
-          return;
-        }
-
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-          try {
-            const projectData = JSON.parse(e.target.result);
-
-            // Recupero del canvas e del suo contesto
-            const canvas = document.getElementById('myCanvas');
-            const context = canvas.getContext('2d');
-            context.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Caricamento dello sfondo del canvas (dall'immagine salvata come base64)
-            const backgroundImg = new Image();
-            backgroundImg.onload = function () {
-              context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-            };
-            backgroundImg.src = projectData.canvas; // Carica l'immagine di sfondo dal JSON
-
-            // Caricamento delle altre immagini sovrapposte
-            projectData.images.forEach(imageData => {
-              const img = new Image();
-              img.onload = function () {
-                context.drawImage(img, imageData.x, imageData.y, imageData.width, imageData.height);
-              };
-              img.src = imageData.src; // Ogni immagine caricata dal JSON con posizione e dimensione
-            });
-
-          } catch (error) {
-            alert("Errore nel caricamento del progetto. File JSON non valido.");
-            console.error(error);
+          if (!event.target.files || event.target.files.length === 0) {
+              alert("Nessun file selezionato.");
+              return;
           }
-        };
+  
+          const file = event.target.files[0];
+          const reader = new FileReader();
+  
+          reader.onload = function (e) {
+              try {
+                  const projectData = JSON.parse(e.target.result);
+  
+                  // Recupero del canvas e del suo contesto
+                  const canvas = document.getElementById('myCanvas');
+                  
+                  context.clearRect(0, 0, canvas.width, canvas.height);
+  
+                  // Caricamento dello sfondo del canvas
+                  const backgroundImg = new Image();
+                  backgroundImg.onload = function () {
+                      context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+                      
 
-        // Lettura del file come testo
-        reader.readAsText(file);
+                  };
+                  backgroundImg.src = projectData.canvas;
+  
+                  // Caricamento delle altre immagini
+                  let imageLoadPromises = projectData.images.map((imageData, index) => {
+                      return new Promise((resolve, reject) => {
+                          const img = new Image();
+                          img.src = imageData; // Base64 dell'immagine
+  
+                          img.onload = function () {
+                              // Aggiungi l'immagine solo quando è pronta
+                              imagesData1[index] = img;
+                              imagePositions[index] = projectData.positions[index];
+                              imageDimensions[index] = projectData.dimensions[index];
+  
+                              // Disegna l'immagine una volta caricata
+                              context.drawImage(
+                                  img,
+                                  imagePositions[index][0], 
+                                  imagePositions[index][1], 
+                                  imageDimensions[index][0], 
+                                  imageDimensions[index][1]
+                              );
+                              resolve();
+                          };
+  
+                          img.onerror = function () {
+                              console.error('Impossibile caricare l\'immagine:', imageData);
+                              reject('Impossibile caricare l\'immagine');
+                          };
+                      });
+                  });
+  
+                  // Attendi il caricamento di tutte le immagini prima di procedere
+                  Promise.all(imageLoadPromises).then(() => {
+                      console.log('Tutte le immagini sono state caricate correttamente.');
+                  }).catch((error) => {
+                      console.error('Errore durante il caricamento delle immagini:', error);
+                  });
+  
+                  projectData.lines.forEach(lineData => {
+                    lines.push(new Line(lineData.startX, lineData.startY, lineData.endX, lineData.endY, lineData.color, lineData.lineWidth));
+                });
+
+                // Ridisegna tutte le linee
+                drawAllLines();
+              } catch (error) {
+                  alert("Errore nel caricamento del progetto. File JSON non valido.");
+                  console.error(error);
+              }
+          };
+  
+          reader.readAsText(file); // Lettura del file come testo
       });
-    });
-
+  });
+  
+  
     // Funzione per salvare il progetto
     $(`.box[pid='77']`).click(function () {
       const canvas = document.getElementById('myCanvas');
       const context = canvas.getContext('2d');
-
-      // Cattura tutte le immagini sovrapposte (qui dovresti avere un array di immagini che hai aggiunto)
-
-
-      // Supponiamo che tu abbia una lista di immagini sul canvas che hai tenuto traccia (puoi tenerle in un array)
-      // Aggiungi manualmente i dati delle immagini
-      document.querySelectorAll('.canvas-image').forEach(img => {
-        // Supponendo che tu abbia salvato le posizioni e dimensioni delle immagini
-        const x = img.dataset.x;
-        const y = img.dataset.y;
-        const width = img.width;
-        const height = img.height;
-
-        imagesData.push({
-          src: img.src, // Salva l'immagine come base64
-          x: parseFloat(x), // Coordinate x
-          y: parseFloat(y), // Coordinate y
-          width: width, // Larghezza dell'immagine
-          height: height // Altezza dell'immagine
-        });
+  
+      // Array per memorizzare le immagini in formato base64
+      let imagesDataToSave = [];
+  
+      // Converti le immagini in base64 (se non lo sono già)
+      imagesData1.forEach((img) => {
+          if (img instanceof HTMLImageElement) {
+              imagesDataToSave.push(img.src);  // Salva la stringa base64 dell'immagine
+          }
       });
-
+  
       // Salva lo stato del canvas come immagine base64
       const projectData = {
-        images: imagesData,
-        canvas: canvas.toDataURL() // Salva lo sfondo del canvas come base64
+          images: imagesDataToSave,            // Salva i dati base64 delle immagini
+          positions: imagePositions,           // Salva le posizioni delle immagini
+          dimensions: imageDimensions,         // Salva le dimensioni delle immagini
+          lines:lines,        //Salva le linee
+          canvas: canvas.toDataURL()           // Salva lo sfondo del canvas come base64
       };
-
+  
       // Converti il progetto in JSON e crealo come blob
       const jsonString = JSON.stringify(projectData);
       const blob = new Blob([jsonString], { type: 'application/json' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'progetto.json'; // Nome del file di download
-      link.click(); // Simula il clic per scaricare il file
-    });
-
-
+      link.download = 'progetto.json';
+      link.click();
+  });
+  
 
 
     $('.selezione .box').on('mousedown touchstart', function () {
