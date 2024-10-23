@@ -21,26 +21,30 @@ var imageDimensions = []
 var imgWidth, imgHeight;
 var dragOffsetX = 0;
 var dragOffsetY = 0;
-var lines=[]
+var lines = []
 
 function drawAllLines() {
   lines.forEach(line => {
-      ctx.beginPath();
-      ctx.moveTo(line.startX, line.startY);
-      ctx.lineTo(line.endX, line.endY);
-      ctx.strokeStyle = line.color;
-      ctx.lineWidth = line.lineWidth;
-      ctx.stroke();
+    
+    ctx.globalCompositeOperation=line.pen_gum;
+    ctx.beginPath();
+    ctx.moveTo(line.startX, line.startY);
+    ctx.lineTo(line.endX, line.endY);
+    ctx.strokeStyle = line.color;
+    ctx.lineWidth = line.lineWidth;
+    ctx.stroke();
   });
+  ctx.globalCompositeOperation='source-over';
 }
 
-function Line(startX, startY, endX, endY, color, lineWidth) {
+function Line(startX, startY, endX, endY, color, lineWidth,gumorpen) {
   this.startX = startX;
   this.startY = startY;
   this.endX = endX;
   this.endY = endY;
   this.color = color;
   this.lineWidth = lineWidth;
+  this.pen_gum=gumorpen;
 }
 function stopAudio() {
 
@@ -316,12 +320,13 @@ function draw(x, y) {
       firstTouch = false;
     } else {
       ctx.lineTo(x, y);
-      lines.push(new Line(lastX, lastY, x, y, color, thickness));
+      
+      lines.push(new Line(lastX, lastY, x, y, color, thickness,ctx.globalCompositeOperation));
     }
-    
+
   }
 
-  
+
   ctx.stroke();
   lastX = x;
   lastY = y;
@@ -368,7 +373,7 @@ $canvas.addEventListener('mousedown', function (e) {
   $canvas.addEventListener('mouseup', function () {
     draw1 = false;
 
-   
+
 
   }, { once: true });
 });
@@ -399,7 +404,7 @@ $canvas.addEventListener('touchstart', function (e) {
 
   $canvas.addEventListener('touchend', function () {
     draw1 = false;
-    
+
 
   }, { once: true });
 });
@@ -416,6 +421,8 @@ $(`.box[pid='8']`).click(function () {
   imageDimensions = []
   dragOffsetX = 0
   dragOffsetY = 0
+  lines=[]
+
 
 
 
@@ -548,7 +555,7 @@ $(".box[pid='13']").click(function () {
   if (cont < 4) {
 
 
-    console.log(cont)
+    
     if (cont == 0) {
       $(".box[pid='13'] img").attr('height', '30px').attr('width', '30px')
       thickness += 3
@@ -657,11 +664,11 @@ $(`.box[pid='10']`).click(function () {
     let img = new Image(); // L'immagine che verrà caricata
     let canvas = document.getElementById('myCanvas');
     let context = canvas.getContext('2d');
-    
+
     // Carica l'immagine tramite file input
     $(`.box[pid='15']`).click(function () {
 
-  
+      ctx.globalCompositeOperation= 'source-over';
 
       let fileInput = $('<input>').attr('type', 'file').attr('accept', 'image/*').hide();
       $('body').append(fileInput);
@@ -700,24 +707,24 @@ $(`.box[pid='10']`).click(function () {
     // Funzione per disegnare l'immagine
     function drawImage(nImage) {
       context.clearRect(0, 0, canvas.width, canvas.height); // Pulisce il canvas
-  drawAllLines()
+      drawAllLines()
 
 
       // Disegna tutte le immagini tranne quella che stai spostando
       for (let x = 0; x < imagesData1.length; x++) {
-          if (x !== nImage) {
-              if (imagesData1[x] instanceof HTMLImageElement && imagesData1[x].complete) { // Verifica se l'immagine è caricata
-                  context.drawImage(imagesData1[x], imagePositions[x][0], imagePositions[x][1], imageDimensions[x][0], imageDimensions[x][1]);
-              }
+        if (x !== nImage) {
+          if (imagesData1[x] instanceof HTMLImageElement && imagesData1[x].complete) { // Verifica se l'immagine è caricata
+            context.drawImage(imagesData1[x], imagePositions[x][0], imagePositions[x][1], imageDimensions[x][0], imageDimensions[x][1]);
           }
+        }
       }
-  
+
       // Ridisegna l'immagine spostata solo se è completamente caricata
       if (imagesData1[nImage] instanceof HTMLImageElement && imagesData1[nImage].complete) {
-          context.drawImage(imagesData1[nImage], imagePositions[nImage][0], imagePositions[nImage][1], imageDimensions[nImage][0], imageDimensions[nImage][1]);
+        context.drawImage(imagesData1[nImage], imagePositions[nImage][0], imagePositions[nImage][1], imageDimensions[nImage][0], imageDimensions[nImage][1]);
       }
-  }
-  
+    }
+
 
 
 
@@ -729,7 +736,7 @@ $(`.box[pid='10']`).click(function () {
 
       if (isIncreasingX) {
 
-        imageDimensions[nImage][0] =imageDimensions[nImage][0] * 1.01;
+        imageDimensions[nImage][0] = imageDimensions[nImage][0] * 1.01;
 
       }
       else {
@@ -828,7 +835,7 @@ $(`.box[pid='10']`).click(function () {
         // Aggiorna la posizione dell'immagine durante il trascinamento
         imagePositions[nImage][0] = mouseX - dragOffsetX;
         imagePositions[nImage][1] = mouseY - dragOffsetY;
-        console.log(nImage)
+        
         drawImage(nImage); // Ridisegna l'immagine
 
       }
@@ -861,34 +868,34 @@ $(`.box[pid='10']`).click(function () {
         const mouseX2 = touch2.clientX - canvas.getBoundingClientRect().left;
         const mouseY2 = touch2.clientY - canvas.getBoundingClientRect().top;
 
-        let cont=0;
+        let cont = 0;
         if (imagePositions.length > 0) {
           for (position of imagePositions) {
-  
-            
+
+
             if (mouseX >= position[0] && mouseX <= position[0] + imageDimensions[cont][0] && mouseY >= position[1] && mouseY <= position[1] + imageDimensions[cont][1]) {
               if (mouseX2 >= position[0] && mouseX2 <= position[0] + imageDimensions[cont][0] && mouseY2 >= position[1] && mouseY2 <= position[1] + imageDimensions[cont][1]) {
 
                 isResizing = true;
-    
-                nImage=cont;
-    
-    
-    
-    
+
+                nImage = cont;
+
+
+
+
               }
-            
+
             }
             cont++;
-  
-  
+
+
           }
-  
+
           cont = 0;
         }
-        
 
-          
+
+
 
 
 
@@ -987,8 +994,8 @@ $(`.box[pid='10']`).click(function () {
         });
       }
     }
-    
-);
+
+    );
 
 
 
@@ -1088,114 +1095,114 @@ $(`.box[pid='10']`).click(function () {
 
       dragOffsetX = 0;
       dragOffsetY = 0;
-  
+
       document.getElementById('fileInput').click();
-  
+
       document.getElementById('fileInput').addEventListener('change', function (event) {
-          if (!event.target.files || event.target.files.length === 0) {
-              alert("Nessun file selezionato.");
-              return;
+        if (!event.target.files || event.target.files.length === 0) {
+          alert("Nessun file selezionato.");
+          return;
+        }
+
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          try {
+            const projectData = JSON.parse(e.target.result);
+
+            // Recupero del canvas e del suo contesto
+            const canvas = document.getElementById('myCanvas');
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Caricamento dello sfondo del canvas
+            const backgroundImg = new Image();
+            backgroundImg.onload = function () {
+              context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+
+
+            };
+            backgroundImg.src = projectData.canvas;
+
+            // Caricamento delle altre immagini
+            let imageLoadPromises = projectData.images.map((imageData, index) => {
+              return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = imageData; // Base64 dell'immagine
+
+                img.onload = function () {
+                  // Aggiungi l'immagine solo quando è pronta
+                  imagesData1[index] = img;
+                  imagePositions[index] = projectData.positions[index];
+                  imageDimensions[index] = projectData.dimensions[index];
+
+                  // Disegna l'immagine una volta caricata
+                  context.drawImage(
+                    img,
+                    imagePositions[index][0],
+                    imagePositions[index][1],
+                    imageDimensions[index][0],
+                    imageDimensions[index][1]
+                  );
+                  resolve();
+                };
+
+                img.onerror = function () {
+                  console.error('Impossibile caricare l\'immagine:', imageData);
+                  reject('Impossibile caricare l\'immagine');
+                };
+              });
+            });
+
+            // Attendi il caricamento di tutte le immagini prima di procedere
+            Promise.all(imageLoadPromises).then(() => {
+              console.log('Tutte le immagini sono state caricate correttamente.');
+            }).catch((error) => {
+              console.error('Errore durante il caricamento delle immagini:', error);
+            });
+
+            projectData.lines.forEach(lineData => {
+              lines.push(new Line(lineData.startX, lineData.startY, lineData.endX, lineData.endY, lineData.color, lineData.lineWidth));
+            });
+
+            // Ridisegna tutte le linee
+            drawAllLines();
+          } catch (error) {
+            alert("Errore nel caricamento del progetto. File JSON non valido.");
+            console.error(error);
           }
-  
-          const file = event.target.files[0];
-          const reader = new FileReader();
-  
-          reader.onload = function (e) {
-              try {
-                  const projectData = JSON.parse(e.target.result);
-  
-                  // Recupero del canvas e del suo contesto
-                  const canvas = document.getElementById('myCanvas');
-                  
-                  context.clearRect(0, 0, canvas.width, canvas.height);
-  
-                  // Caricamento dello sfondo del canvas
-                  const backgroundImg = new Image();
-                  backgroundImg.onload = function () {
-                      context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-                      
+        };
 
-                  };
-                  backgroundImg.src = projectData.canvas;
-  
-                  // Caricamento delle altre immagini
-                  let imageLoadPromises = projectData.images.map((imageData, index) => {
-                      return new Promise((resolve, reject) => {
-                          const img = new Image();
-                          img.src = imageData; // Base64 dell'immagine
-  
-                          img.onload = function () {
-                              // Aggiungi l'immagine solo quando è pronta
-                              imagesData1[index] = img;
-                              imagePositions[index] = projectData.positions[index];
-                              imageDimensions[index] = projectData.dimensions[index];
-  
-                              // Disegna l'immagine una volta caricata
-                              context.drawImage(
-                                  img,
-                                  imagePositions[index][0], 
-                                  imagePositions[index][1], 
-                                  imageDimensions[index][0], 
-                                  imageDimensions[index][1]
-                              );
-                              resolve();
-                          };
-  
-                          img.onerror = function () {
-                              console.error('Impossibile caricare l\'immagine:', imageData);
-                              reject('Impossibile caricare l\'immagine');
-                          };
-                      });
-                  });
-  
-                  // Attendi il caricamento di tutte le immagini prima di procedere
-                  Promise.all(imageLoadPromises).then(() => {
-                      console.log('Tutte le immagini sono state caricate correttamente.');
-                  }).catch((error) => {
-                      console.error('Errore durante il caricamento delle immagini:', error);
-                  });
-  
-                  projectData.lines.forEach(lineData => {
-                    lines.push(new Line(lineData.startX, lineData.startY, lineData.endX, lineData.endY, lineData.color, lineData.lineWidth));
-                });
-
-                // Ridisegna tutte le linee
-                drawAllLines();
-              } catch (error) {
-                  alert("Errore nel caricamento del progetto. File JSON non valido.");
-                  console.error(error);
-              }
-          };
-  
-          reader.readAsText(file); // Lettura del file come testo
+        reader.readAsText(file); // Lettura del file come testo
       });
-  });
-  
-  
+    });
+
+
     // Funzione per salvare il progetto
     $(`.box[pid='77']`).click(function () {
       const canvas = document.getElementById('myCanvas');
       const context = canvas.getContext('2d');
-  
+
       // Array per memorizzare le immagini in formato base64
       let imagesDataToSave = [];
-  
+
       // Converti le immagini in base64 (se non lo sono già)
       imagesData1.forEach((img) => {
-          if (img instanceof HTMLImageElement) {
-              imagesDataToSave.push(img.src);  // Salva la stringa base64 dell'immagine
-          }
+        if (img instanceof HTMLImageElement) {
+          imagesDataToSave.push(img.src);  // Salva la stringa base64 dell'immagine
+        }
       });
-  
+
       // Salva lo stato del canvas come immagine base64
       const projectData = {
-          images: imagesDataToSave,            // Salva i dati base64 delle immagini
-          positions: imagePositions,           // Salva le posizioni delle immagini
-          dimensions: imageDimensions,         // Salva le dimensioni delle immagini
-          lines:lines,        //Salva le linee
-          canvas: canvas.toDataURL()           // Salva lo sfondo del canvas come base64
+        images: imagesDataToSave,            // Salva i dati base64 delle immagini
+        positions: imagePositions,           // Salva le posizioni delle immagini
+        dimensions: imageDimensions,         // Salva le dimensioni delle immagini
+        lines: lines,        //Salva le linee
+        canvas: canvas.toDataURL()           // Salva lo sfondo del canvas come base64
       };
-  
+
       // Converti il progetto in JSON e crealo come blob
       const jsonString = JSON.stringify(projectData);
       const blob = new Blob([jsonString], { type: 'application/json' });
@@ -1203,8 +1210,8 @@ $(`.box[pid='10']`).click(function () {
       link.href = URL.createObjectURL(blob);
       link.download = 'progetto.json';
       link.click();
-  });
-  
+    });
+
 
 
     $('.selezione .box').on('mousedown touchstart', function () {
