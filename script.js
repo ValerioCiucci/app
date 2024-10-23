@@ -1088,13 +1088,7 @@ $(`.box[pid='10']`).click(function () {
 
     // Funzione per caricare il progetto
     $(`.box[pid='76']`).click(function (event) {
-      imagesData1 = [];
-      imagePositions = [];
-      imageDimensions = [];
-      lines = []; // Resetta le linee
-
-      dragOffsetX = 0;
-      dragOffsetY = 0;
+      
 
       document.getElementById('fileInput').click();
 
@@ -1102,6 +1096,15 @@ $(`.box[pid='10']`).click(function () {
         if (!event.target.files || event.target.files.length === 0) {
           alert("Nessun file selezionato.");
           return;
+        }
+        else{
+          imagesData1 = [];
+      imagePositions = [];
+      imageDimensions = [];
+      lines = []; // Resetta le linee
+
+      dragOffsetX = 0;
+      dragOffsetY = 0;
         }
 
         const file = event.target.files[0];
