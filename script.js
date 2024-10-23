@@ -461,6 +461,13 @@ $(`.box[pid='7']`).click(function () {
 
 $(`.box[pid='5']`).click(function () {
   mouse = true;
+  imagesData1 = [];
+  imagePositions = [];
+  imageDimensions = [];
+  lines = []; // Resetta le linee
+
+  dragOffsetX = 0;
+  dragOffsetY = 0;
 
   if (activatedButton) {
 
@@ -600,6 +607,13 @@ let backupStyle = {
 
 let flag1 = false;
 $(`.box[pid='10']`).click(function () {
+  imagesData1 = [];
+  imagePositions = [];
+  imageDimensions = [];
+  lines = []; // Resetta le linee
+
+  dragOffsetX = 0;
+  dragOffsetY = 0;
   if (!flag1) {
 
     $('.selezione').append(
