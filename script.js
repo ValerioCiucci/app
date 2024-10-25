@@ -862,10 +862,15 @@ $(`.box[pid='10']`).click(function () {
           img.src = event.target.result;
 
           img.onload = function () {
-            // Imposta dimensioni del canvas in base all'immagine
+            //posizione iniziale
             imagePositions.push([50, 50])
 
+            if (img.width>1000){
 
+              img.width=300;
+              img.height=300;
+
+            }
             // Memorizza larghezza e altezza dell'immagine
             imageDimensions.push([img.width, img.height]);
 
