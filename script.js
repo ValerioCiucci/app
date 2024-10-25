@@ -22,11 +22,12 @@ var imgWidth, imgHeight;
 var dragOffsetX = 0;
 var dragOffsetY = 0;
 var lines = []
+var background;
 
 function drawAllLines() {
   lines.forEach(line => {
-    
-    ctx.globalCompositeOperation=line.pen_gum;
+
+    ctx.globalCompositeOperation = line.pen_gum;
     ctx.beginPath();
     ctx.moveTo(line.startX, line.startY);
     ctx.lineTo(line.endX, line.endY);
@@ -34,17 +35,17 @@ function drawAllLines() {
     ctx.lineWidth = line.lineWidth;
     ctx.stroke();
   });
-  ctx.globalCompositeOperation='source-over';
+  ctx.globalCompositeOperation = 'source-over';
 }
 
-function Line(startX, startY, endX, endY, color, lineWidth,gumorpen) {
+function Line(startX, startY, endX, endY, color, lineWidth, gumorpen) {
   this.startX = startX;
   this.startY = startY;
   this.endX = endX;
   this.endY = endY;
   this.color = color;
   this.lineWidth = lineWidth;
-  this.pen_gum=gumorpen;
+  this.pen_gum = gumorpen;
 }
 function stopAudio() {
 
@@ -320,8 +321,8 @@ function draw(x, y) {
       firstTouch = false;
     } else {
       ctx.lineTo(x, y);
-      
-      lines.push(new Line(lastX, lastY, x, y, color, thickness,ctx.globalCompositeOperation));
+
+      lines.push(new Line(lastX, lastY, x, y, color, thickness, ctx.globalCompositeOperation));
     }
 
   }
@@ -421,8 +422,23 @@ $(`.box[pid='8']`).click(function () {
   imageDimensions = []
   dragOffsetX = 0
   dragOffsetY = 0
-  lines=[]
+  lines = []
+  if (typeof background === "string") {
+    ctx.fillStyle = background;
 
+
+
+    ctx.fillRect(0, 0, $canvas.width, $canvas.height);
+
+
+  }
+  else {
+
+
+    context.drawImage(background, 0, 0, $canvas.width, $canvas.height);
+
+
+  }
 
 
 
@@ -460,6 +476,9 @@ $(`.box[pid='7']`).click(function () {
 });
 
 $(`.box[pid='5']`).click(function () {
+
+
+
   mouse = true;
   imagesData1 = [];
   imagePositions = [];
@@ -468,9 +487,10 @@ $(`.box[pid='5']`).click(function () {
 
   dragOffsetX = 0;
   dragOffsetY = 0;
+  
+
 
   if (activatedButton) {
-
 
     $('.box').css('transform', 'scale(1.0)');
     $(".box[pid='9'").addClass('m-t')
@@ -496,6 +516,11 @@ $(`.box[pid='5']`).click(function () {
 
 
     $(".box[pid='98']").remove()
+    $(".box[pid='199']").remove()
+    $(".box[pid='100']").remove()
+    $(".box[pid='101']").remove()
+
+
 
     $canvas.width = 200;
     $canvas.height = 200;
@@ -515,6 +540,9 @@ $(`.box[pid='5']`).click(function () {
     activatedButton = false;
 
 
+    $("div[pid='200']").remove();
+    $("div[pid='201']").remove();
+    
   }
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   $("input")[1].value = 'black';
@@ -527,6 +555,8 @@ $(`.box[pid='5']`).click(function () {
   $(".box").not(".n").show(1000);
   $(".gatto img").attr('src', `img/arrabbiato2.gif`);
   $(".d").children().t("E MO CHE VOI");
+  $(".box[pid='10']").hide()
+
 });
 
 $("img[pid='1']").click(function () {
@@ -562,7 +592,7 @@ $(".box[pid='13']").click(function () {
   if (cont < 4) {
 
 
-    
+
     if (cont == 0) {
       $(".box[pid='13'] img").attr('height', '30px').attr('width', '30px')
       thickness += 3
@@ -606,7 +636,9 @@ let backupStyle = {
 };
 
 let flag1 = false;
+//fullscreen
 $(`.box[pid='10']`).click(function () {
+  $(".box[pid='10']").hide();
   imagesData1 = [];
   imagePositions = [];
   imageDimensions = [];
@@ -615,19 +647,64 @@ $(`.box[pid='10']`).click(function () {
   dragOffsetX = 0;
   dragOffsetY = 0;
   if (!flag1) {
+    //pulsante sfondo
+
 
     $('.selezione').append(
       $('<div>')
         .css('display', 'flex')
-        .css('width', '80%')
+        .attr('pid','200')
 
+        .append(
+          $('<div>')
+            .addClass('box')
+            .addClass('n')
+            .attr('pid', '199')
+            .text('Sfondo'))
+        .append(
+          $('<div>')
+            .addClass('box')
+            .addClass('n')
+            .attr('pid', '100')
+            .css('display', 'none')
+            .addClass('bar1')
+            .append($('<input>')
+              .attr('type', 'color')
+              .attr('id', 'colorPicker')
+              .attr('value', '#FFFFFF')
+              .attr('pid', '54')
+
+
+            )
+        )
+        .append(
+          $('<div>')
+            .addClass('box')
+            .addClass('n')
+            .attr('pid', '101')
+            .css('display', 'none')
+            .text('Carica immagine')
+            .addClass('bar1')
+
+
+
+        )
+    )
+
+    $('.selezione').append(
+      $('<div>')
+        .css('display', 'flex')
+        .attr('pid','201')
+
+
+        //pulsante strumenti
 
         .append(
           $('<div>')
             .addClass('box')
             .addClass('n')
             .attr('pid', '98')
-            .text('Strumenti')
+            .text('TOOLS')
         ).append(
           $('<div>')
             .addClass('box')
@@ -672,17 +749,89 @@ $(`.box[pid='10']`).click(function () {
 
 
     );
+
+    //pulsante sfondo colore
+    $(`.box[pid='100'] input`).on('input', function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = $(this).val()
+      background = $(this).val();
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drawAllLines();
+      for (let x = 0; x < imagesData1.length; x++) {
+
+        if (imagesData1[x] instanceof HTMLImageElement && imagesData1[x].complete) { // Verifica se l'immagine è caricata
+          context.drawImage(imagesData1[x], imagePositions[x][0], imagePositions[x][1], imageDimensions[x][0], imageDimensions[x][1]);
+        }
+      }
+
+    }
+
+    );
     let isDragging = false;
 
 
-    let img = new Image(); // L'immagine che verrà caricata
+    let img = new Image();
     let canvas = document.getElementById('myCanvas');
     let context = canvas.getContext('2d');
+
+
+    // Sfondo immagine
+    $(`.box[pid='101']`).click(function () {
+      let fileInput = $('<input>').attr('type', 'file').attr('accept', 'image/*').hide();
+      $('body').append(fileInput);
+      fileInput.click();
+
+      fileInput.on('change', function (e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+          img = new Image();
+          img.src = event.target.result;
+
+          img.onload = function () {
+            // Disegna lo sfondo appena caricato
+            background = img;
+
+            // Prima cancella solo il background per evitare di rimuovere altri disegni
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Redisegna le linee e le immagini sopra il nuovo sfondo
+            drawAllLines();
+            drawAllImages();
+          };
+
+          fileInput.remove();
+        };
+
+        reader.readAsDataURL(file);
+      });
+    });
+
+    // Funzione per disegnare tutte le immagini sopra lo sfondo
+    function drawAllImages() {
+      for (let x = 0; x < imagesData1.length; x++) {
+        if (imagesData1[x] instanceof HTMLImageElement && imagesData1[x].complete) {
+          context.drawImage(
+            imagesData1[x],
+            imagePositions[x][0],
+            imagePositions[x][1],
+            imageDimensions[x][0],
+            imageDimensions[x][1]
+          );
+        }
+      }
+    }
+
+
+
 
     // Carica l'immagine tramite file input
     $(`.box[pid='15']`).click(function () {
 
-      ctx.globalCompositeOperation= 'source-over';
+      ctx.globalCompositeOperation = 'source-over';
 
       let fileInput = $('<input>').attr('type', 'file').attr('accept', 'image/*').hide();
       $('body').append(fileInput);
@@ -718,9 +867,25 @@ $(`.box[pid='10']`).click(function () {
       });
     });
 
-    // Funzione per disegnare l'immagine
+    // Funzione per spostare l'immagine
     function drawImage(nImage) {
       context.clearRect(0, 0, canvas.width, canvas.height); // Pulisce il canvas
+      if (typeof background === "string") {
+        ctx.fillStyle = background;
+
+
+
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+      }
+      else {
+
+
+        context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+
+      }
       drawAllLines()
 
 
@@ -849,7 +1014,7 @@ $(`.box[pid='10']`).click(function () {
         // Aggiorna la posizione dell'immagine durante il trascinamento
         imagePositions[nImage][0] = mouseX - dragOffsetX;
         imagePositions[nImage][1] = mouseY - dragOffsetY;
-        
+
         drawImage(nImage); // Ridisegna l'immagine
 
       }
@@ -1035,7 +1200,8 @@ $(`.box[pid='10']`).click(function () {
       'top': '0',
       'left': '0',
       'width': window.innerWidth,
-      'height': window.innerHeight
+      'height': window.innerHeight,
+      'border-radius': '0'
     });
 
     $('.gatto').css({
@@ -1080,21 +1246,36 @@ $(`.box[pid='10']`).click(function () {
 
 
       $('.bar').fadeToggle(500)
+      $('.bar1').fadeOut(500)
+
+
+    })
+    $(`.box[pid='199']`).click(function () {
+
+      $('.bar').fadeOut(500)
+      $('.bar1').fadeToggle(500)
 
 
     })
 
     $(`.box[pid='14']`).click(function () {
+
       flag = !flag;
       $(this).text(flag ? 'Nascondi' : 'Mostra');
 
 
-      $('.n').not('.m').not('.bar').toggle("slide:right");
+      $('.n').not('.m').not('.bar').not('.bar1').not(".box[pid='10']").toggle("slide:right");
 
       if ($('.bar').css('display') != 'none') {
 
         $('.bar').toggle("slide:right")
       }
+
+      if ($('.bar1').css('display') != 'none') {
+
+        $('.bar1').toggle("slide:right")
+      }
+
 
       $("img[pid='1']").not('.m').toggle("slide:right");
     });
@@ -1102,7 +1283,7 @@ $(`.box[pid='10']`).click(function () {
 
     // Funzione per caricare il progetto
     $(`.box[pid='76']`).click(function (event) {
-      
+
 
       document.getElementById('fileInput').click();
 
@@ -1111,14 +1292,14 @@ $(`.box[pid='10']`).click(function () {
           alert("Nessun file selezionato.");
           return;
         }
-        else{
+        else {
           imagesData1 = [];
-      imagePositions = [];
-      imageDimensions = [];
-      lines = []; // Resetta le linee
+          imagePositions = [];
+          imageDimensions = [];
+          lines = []; // Resetta le linee
 
-      dragOffsetX = 0;
-      dragOffsetY = 0;
+          dragOffsetX = 0;
+          dragOffsetY = 0;
         }
 
         const file = event.target.files[0];
@@ -1247,6 +1428,7 @@ $(`.box[pid='10']`).click(function () {
 
     $canvas.width = window.innerWidth;
     $canvas.height = window.innerHeight;
+
 
 
 
