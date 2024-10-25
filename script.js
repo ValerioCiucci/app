@@ -867,7 +867,7 @@ $(`.box[pid='10']`).click(function () {
 
             if (img.width>1000){
 
-              img.width=300;
+              img.width=200;
               img.height=300;
 
             }
