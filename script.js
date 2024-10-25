@@ -451,7 +451,7 @@ $(`.box[pid='8']`).click(function () {
   else {
 
 
-    context.drawImage(background, 0, 0, $canvas.width, $canvas.height);
+    ctx.drawImage(background, 0, 0, $canvas.width, $canvas.height);
 
 
   }
