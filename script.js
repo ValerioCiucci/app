@@ -1343,7 +1343,7 @@ $(`.box[pid='10']`).click(function () {
 
             };
             backgroundImg.src = projectData.canvas;
-
+            background=projectData.background;
             // Caricamento delle altre immagini
             let imageLoadPromises = projectData.images.map((imageData, index) => {
               return new Promise((resolve, reject) => {
@@ -1419,7 +1419,8 @@ $(`.box[pid='10']`).click(function () {
         positions: imagePositions,           // Salva le posizioni delle immagini
         dimensions: imageDimensions,         // Salva le dimensioni delle immagini
         lines: lines,        //Salva le linee
-        canvas: canvas.toDataURL()           // Salva lo sfondo del canvas come base64
+        canvas: canvas.toDataURL()      ,     // Salva lo sfondo del canvas come base64
+        background: background
       };
 
       // Converti il progetto in JSON e crealo come blob
