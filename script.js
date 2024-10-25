@@ -22,7 +22,7 @@ var imgWidth, imgHeight;
 var dragOffsetX = 0;
 var dragOffsetY = 0;
 var lines = []
-var background;
+var background="#FFFFFF";
 
 function drawAllLines() {
   lines.forEach(line => {
@@ -78,7 +78,10 @@ $(".main").hide()
 
 
 $(".n").hide();
-$('canvas').hide();
+$('canvas').not('#c').hide();
+$('canvas')[1].width=window.innerWidth
+$('canvas')[1].height=window.innerHeight
+
 var activatedButton = false;
 var mouse = true;
 let lastX = 0;
@@ -90,9 +93,22 @@ var audio = $("audio")[0];
 audio.volume = 0.2;
 
 $("img[pid='0']").click(function () {
-  $(".start").hide(0)
-  $(".main").show(0)
+  $("script[pid='1']").remove()
+
+
+  $('body').addClass('background')
+  $('html').addClass('background')
+
+  
+  $(".main").show(100,function(){
+    $(".start").remove()
+    $("canvas").first().remove()
+
+
+
+  })
   $("audio")[3].play()
+  
 
 })
 
@@ -298,7 +314,7 @@ $(`.box[pid='2']`).click(function () {
 });
 
 var drawingEnabled = false;
-const $canvas = $('canvas')[0];
+const $canvas = $('canvas')[1];
 const ctx = $canvas.getContext('2d');
 let color = $("input")[1].value;
 let firstTouch = false;
