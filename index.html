@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head class="bg">
+<head >
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <style>
@@ -17,6 +17,8 @@
             height: 100%;
             background-color: white;
             z-index: 9999;
+
+
           
         }
         audio{
@@ -24,9 +26,14 @@
             display: none;
         }
     </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+
     <script>
+
         window.onload = function () {
             document.getElementById('loading-screen').style.display = 'none';
+            $('head').addClass('bg')
+            $('body').addClass('bg')
         };
     </script>
     <link rel="icon" href="img/cute.png" sizes="192x192">
@@ -48,7 +55,7 @@
 
 </head>
 
-<body class="bg">
+<body >
 
     <div id="loading-screen">Caricamento...</div>
     <canvas id="c"></canvas>
@@ -158,7 +165,7 @@
 
     <audio controls autoplay>
 
-        <source src="sounds/Carefree.mp3">
+        <source src="sounds/Carefree.mp4">
     </audio>
     <audio controls autoplay>
 
@@ -175,7 +182,6 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 </body>
 <script src="t.js-1.5.6/t.js"></script>
 
