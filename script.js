@@ -236,6 +236,7 @@ $(`.box[pid='3']`).click(function () {
 
 let isRunning = false;
 $(`.box[pid='4']`).click(function () {
+  
   stopAudio()
   $canvas.width=200;
   $canvas.height=200
@@ -258,6 +259,7 @@ $(`.box[pid='4']`).click(function () {
       $(".n").toggle(1000);
       enableDrawing()
       isRunning = false;
+      $('.main').css('top','-60px')
     }, 1000));
   });
 
@@ -506,7 +508,7 @@ $(`.box[pid='5']`).click(function () {
   dragOffsetX = 0;
   dragOffsetY = 0;
   
-
+  $('.main').css('top','0px')
 
   if (activatedButton) {
 
