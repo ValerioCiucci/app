@@ -667,8 +667,8 @@ let flag1 = false;
 $(`.box[pid='10']`).click(function () {
   
   $(".box[pid='10']").hide();
-  $('audio').remove()
   
+
 
   $('body').removeClass('bg')
   $('head').removeClass('bg')
