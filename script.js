@@ -259,7 +259,7 @@ $(`.box[pid='4']`).click(function () {
       $(".n").toggle(1000);
       enableDrawing()
       isRunning = false;
-      $('.main').css('top','-60px')
+      $('.main').css('top','-80px')
     }, 1000));
   });
 
@@ -666,6 +666,8 @@ let flag1 = false;
 //fullscreen
 $(`.box[pid='10']`).click(function () {
   $(".box[pid='10']").hide();
+  stopAudio()
+
   $('body').removeClass('bg')
   $('head').removeClass('bg')
 
