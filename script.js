@@ -838,7 +838,7 @@ $('html').removeClass('background')
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // Redisegna le linee e le immagini sopra il nuovo sfondo
+            
             drawAllLines();
             drawAllImages();
           };
@@ -850,7 +850,7 @@ $('html').removeClass('background')
       });
     });
 
-    // Funzione per disegnare tutte le immagini sopra lo sfondo
+  
     function drawAllImages() {
       for (let x = 0; x < imagesData1.length; x++) {
         if (imagesData1[x] instanceof HTMLImageElement && imagesData1[x].complete) {
@@ -868,7 +868,7 @@ $('html').removeClass('background')
 
 
 
-    // Carica l'immagine tramite file input
+    
     $(`.box[pid='15']`).click(function () {
 
       ctx.globalCompositeOperation = 'source-over';
@@ -1262,7 +1262,7 @@ $('html').removeClass('background')
 
 
 
-    $("img[pid='1']").attr('width', '30px')
+    $("img[pid='1']").attr('width', '-30px')
     $("img[pid='1']").attr('height', '30px')
 
     $("img[pid='1']").css('filter', 'brightness(0)')
