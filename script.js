@@ -532,7 +532,7 @@ $(`.box[pid='5']`).click(function () {
     $('.main').append($("img[pid='1']"))
     $("img[pid='1']").get(0).style.cssText = backupStyle.img
     $("img[pid='1']").attr('height', '100px')
-    $("img[pid='1']").attr('width', '100px')
+    $("img[pid='1']").attr('width', '-50px')
 
     $(".main").show(0)
     $('.bar').remove()
@@ -1507,7 +1507,7 @@ $('html').removeClass('background')
     $('.main').append($("img[pid='1']"))
     $("img[pid='1']").get(0).style.cssText = backupStyle.img
     $("img[pid='1']").attr('height', '100px')
-    $("img[pid='1']").attr('width', '100px')
+    $("img[pid='1']").attr('width', '-50px')
 
     $(".main").show(0)
 
