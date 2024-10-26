@@ -237,6 +237,8 @@ $(`.box[pid='3']`).click(function () {
 let isRunning = false;
 $(`.box[pid='4']`).click(function () {
   stopAudio()
+  $canvas.width=200;
+  $canvas.height=200
 
   mouse = false;
   if (isRunning) return;

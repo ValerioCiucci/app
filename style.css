@@ -38,7 +38,8 @@ html, body {
     align-items: center;
 }
 .background{
-    background: linear-gradient(to top, #ff6666 0%, #e9967a 100%);
+    /* background: linear-gradient(to left, #ff47a1 0%, #ff9f4d 100%); */
+background-color: #282741 !important;
 
 }
 .gatto{
@@ -64,7 +65,11 @@ html, body {
 }
 
 .start{
+    
     position: absolute;
+    top:80px;
+    z-index: 1;
+
     display:flex;
     flex-direction:column;
    width: 100%;
@@ -93,6 +98,11 @@ border-radius: 0px;
     display:flex;
     flex-direction:column;
    width: 100%;
+   position: absolute;
+   z-index: 1;
+   font-size: 15px;
+   
+  
 
 }
 .box{
@@ -104,7 +114,8 @@ font-family: 'Minecraft', sans-serif;
 height: 70px;
 width: 80px;
 
-    color:darksalmon;
+    /* color:#283892 ; */
+    color:#711b79 ;
     background-color: white;
     padding: 10;
     border-radius: 10px;
@@ -116,6 +127,8 @@ width: 80px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-left: 10px;
+    width: 90%;
     flex-wrap: wrap;
 
 }
