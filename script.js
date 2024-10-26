@@ -593,10 +593,7 @@ $("img[pid='1']").click(function () {
     audio.pause();
   }
 });
-audio.addEventListener('ended', () => {
-  audio.currentTime = 0;
-  audio.play(); 
-});
+
 
 $('input').on('input', function () {
   color = $("input")[1].value;
@@ -1527,7 +1524,7 @@ $('html').removeClass('background')
 
     flag1 = false;
   }
-  stopAudio()
+  
 });
 $(document).on('touchstart', '.loaded', function () {
 
