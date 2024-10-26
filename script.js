@@ -509,7 +509,10 @@ $(`.box[pid='5']`).click(function () {
   dragOffsetY = 0;
   
   $('.main').css('top','0px')
-
+  $('body').addClass('background')
+  $('html').addClass('background')
+  $('body').addClass('bg')
+  $('head').addClass('bg')
   if (activatedButton) {
 
     $('.box').css('transform', 'scale(1.0)');
@@ -659,6 +662,9 @@ let flag1 = false;
 //fullscreen
 $(`.box[pid='10']`).click(function () {
   $(".box[pid='10']").hide();
+  $('body').removeClass('bg')
+  $('head').removeClass('bg')
+
   imagesData1 = [];
   imagePositions = [];
   imageDimensions = [];
@@ -668,6 +674,9 @@ $(`.box[pid='10']`).click(function () {
   dragOffsetY = 0;
   if (!flag1) {
     //pulsante sfondo
+$('.main').css('top','0px')
+$('body').removeClass('background')
+$('html').removeClass('background')
 
 
     $('.selezione').append(
