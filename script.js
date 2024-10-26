@@ -665,7 +665,8 @@ let backupStyle = {
 let flag1 = false;
 //fullscreen
 $(`.box[pid='10']`).click(function () {
-  stopAudio()
+  $('audio')[2].pause();
+  $('audio')[1].pause()
   $(".box[pid='10']").hide();
 
   $('body').removeClass('bg')
